@@ -54,7 +54,7 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]  
 
-\title{\textsc{全体講義}: 脅威モデルとセキュリティ}
+\title{\textsc{RG全体講義}: プロトコル設計における脅威の明確化と正当性証明}
 \author{moz@sfc.wide.ad.jp}
 \date{\today}
 
@@ -64,8 +64,26 @@
 \titlepage
 \end{frame}
 
+
+\begin{frame}{主題と目的}
+\underline{主題}
+\begin{itemize}
+    \item プロコトルの設計について紹介する
+    \item 脅威モデルについて紹介する
+    \item プロコトルの正当性証明（Formal Proof）について紹介する
+    \item 最後にDelight的な（分散システムとデジタルアイデンティティについての）研究課題を紹介する
+\end{itemize}
+
+\underline{目的}
+\begin{itemize}
+    \item 分散システムにおけるプロコトルの設計（のお気持ち）を理解する
+    \item プロコトルの設計における正当性保証の考え方（のお気持ち）を理解する
+    \item 自身のプロトコルを学術論文としてまとめる際、どのような構成で何を明らかにすれば良いかを理解する
+\end{itemize}
+\end{frame}
+
 \begin{frame}{プロトコルとは？}
-\begin{proofblock}[プロトコルの定義]
+\begin{proofblock}[プロトコルの定義（Oxford Dictionary）]
 A set of rules governing the exchange or transmission of data between entities.
 \end{proofblock}
 
@@ -74,27 +92,32 @@ A set of rules governing the exchange or transmission of data between entities.
 
 
 
-\begin{proofblock}[アルゴリズムの定義]
+\begin{proofblock}[アルゴリズムの定義（Oxford Dictionary）]
 A set of instructions for performing a task or solving a problem.
 \end{proofblock}
 
-プロトコルは計算手順に焦点を当てるのに対し、プロトコルは参加者間の相互作用に重点を置く
+アルゴリズムは計算手順に焦点を当てるのに対し、プロトコルは参加者間の相互作用に重点を置く。
+\footnote{プロトコルは英語や日本語など共通のルールで会話する例として説明されることが多いが、これは相互作用の規則を表しているためである。一方で「日本語アルゴリズム」という表現が一般的でないのは、アルゴリズムが相互作用ではなく計算手順を表すためである。}
 一般的なプロトコルの例：HTTP、SMTP、TLS/SSL、SSH、OAuth、Paxos、Raft
 
 \end{frame}
 
-\begin{frame}{プロトコルの設計}
-各プロトコルは特定の目的を達成するために設計される。
-その目的を効果的に実現するためには、以下の点を明確に定義することが重要である：
+\begin{frame}{安全なプロトコルの設計}
+この講義はプロコトルの設計手法については紹介しない。
+
+\begin{outlineblock}[]
+    皆さんが自分のドメインで設計したプロコトルがなぜ正当(Correctness)と言えるのかをどのように他人に説明できるかを考える講義
+\end{outlineblock}
+
+プロコトルの正当性を示すには、以下の点を明確にすることが重要である：
 \begin{itemize}
     \item どのようなエンティティがプロトコルに関与するか
     \item エンティティ間でどのような情報交換が行われるか
-    \item \underline{それぞれのエンティティがどのような振る舞いをする可能性があるか}
+    \item プロトコルはどのような条件を満たせば安全であると言えるのか
+    \item \textbf{それぞれのエンティティがどのような振る舞いをする可能性があるか}
+    \item \textbf{そのようなエンティティが存在するときに、プロコトルが安全であるかどうかをどのように判断するか}
 \end{itemize}
 
-\vspace{0.5em}
-
-これらを明らかにして、\underline{安全なプロトコルを設計する鍵となる}。
 \end{frame}
 
 
@@ -102,7 +125,7 @@ A set of instructions for performing a task or solving a problem.
 プロトコル設計において、どのような振る舞いを許容するかを考える上では、\underline{エンティティの能力と行動に関する仮定を明確にする}ことが重要である。
 
 \begin{proofblock}[敵対者]
-An adversary refers to an attacker, typically with malicious intent, who undertakes actions against a system or protocol
+An adversary refers to an attacker, typically with malicious intent, who undertakes actions against a system or protocol\\
 敵対者は、プロトコルに参加するエンティティを制御下に置き、そのエンティティの動作を変更または監視できる状態。
 \end{proofblock}
 
@@ -110,6 +133,12 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 \begin{proofblock}[脅威モデル]
 \textcolor{red}{脅威モデル}（threat model）とは、敵対者の能力と行動に関する仮定を形式化したモデル。
 \end{proofblock}
+
+\end{frame}
+
+\begin{frame}{敵対者と脅威モデル}
+
+    図
 
 \end{frame}
 
@@ -140,13 +169,13 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 \vspace{0.5em}
 
 \begin{itemize}
-    \item \textbf{Passive (Honest-but-Curious)}：プロトコルに完全に従いながら、観測したすべての情報を蓄積して活用できる。しかし、プロトコルの仕様に逸脱することはできない。\footnote{具体例として銀行の従業員、顧客の取引データを正しく処理しながらも、そのデータをこっそり記録して個人的に利用する場合。}
+    \item \textbf{Passive. }プロトコルに完全に従いながら、観測したすべての情報を蓄積して活用できる。しかし、プロトコルの仕様に逸脱することはできない。\footnote{具体例として銀行の従業員、顧客の取引データを正しく処理しながらも、そのデータをこっそり記録して個人的に利用する場合。}\footnote{Honest-but-Curious, Semi-Honestモデルとも呼ばれる。}
     
-    \item \textbf{Crash}：応答を任意のタイミングで停止できるが、停止時間外は正確にプロトコルに従って動作する。
+    \item \textbf{Crash. }応答を任意のタイミングで停止できるが、停止時間外は正確にプロトコルに従って動作する。
     
-    \item \textbf{Omission}：エンティティは受信したのメッセージを任意に削除または無視できる。送信するメッセージの内容を変更することはできない。
+    \item \textbf{Omission. }エンティティは受信したのメッセージを任意に削除または無視できる。送信するメッセージの内容を変更することはできない。
     
-    \item \textbf{Byzantine}：エンティティはプロトコル仕様から任意に逸脱できる。
+    \item \textbf{Byzantine. }エンティティはプロトコル仕様から任意に逸脱できる。
 \end{itemize}
 
 \vspace{0.5em}
@@ -179,18 +208,16 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 
 
 \begin{frame}{可視性モデル (Visibility Models)}
-可視性モデルは、敵対者がどの程度のメッセージや状態（ノード内の情報）を観察できるかを定義する。
-
-\vspace{0.5em}
+可視性モデルは、敵対者がどの程度のメッセージや内部状態を観察できるかを定義する。
 
 \begin{itemize}
-    \item \textbf{Full Information}：敵対者はすべてのメッセージ内容と各エンティティの内部状態（実行中の変数）を完全に観察可能
+    \item \textbf{Full Information. }敵対者はすべてのメッセージ内容と各エンティティの内部状態（実行中の変数）を完全に観察可能
     
-    \item \textbf{\textcolor{red}{Private Channels}}：正直なエンティティ間の通信内容は敵対者から隠されるが、通信の発生事実やメタデータ（送信元、宛先、タイミング、メッセージサイズ等）は観察可能。腐敗したエンティティの状態、メッセージ内容は観察可能。
+    \item \textbf{Private Channels. }正直なエンティティ間の通信内容は敵対者から隠されるが、通信の発生事実やメタデータ（送信元、宛先、タイミング、メッセージサイズ等）は観察可能。腐敗したエンティティの状態、メッセージ内容は観察可能。
     
-    \item \textbf{Erasure Model}：Private Channelsに対して、参加者が腐敗する前に消去されたデータは、敵対者は観察・復元できない制約を足したもの。
+    \item \textbf{Erasure Model. }Private Channelsに対して、参加者が腐敗する前に消去されたデータは、敵対者は観察・復元できない制約を足したもの。
     
-    \item \textbf{Oblivious}：メッセージのヘッダー情報（送信元、宛先、長さ）のみを観察可能で、内容は完全に隠蔽される。\footnote{Trusted Computingのようなシステムでは、このモデルを考えることが多い。}
+    \item \textbf{Oblivious. }メッセージのヘッダー情報（送信元、宛先、長さ）のみを観察可能で、内容は完全に隠蔽される。\footnote{Trusted Computingのようなシステムでは、このモデルを考えることが多い。}
 \end{itemize}
 
 \begin{outlineblock}[]
@@ -204,16 +231,15 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 
 
 \begin{itemize}
-    \item \textbf{Unbounded}：無制限の計算資源を持つ敵対者。理論上はすべての暗号を破ることができる。\\
+    \item \textbf{Unbounded. }無制限の計算資源を持つ敵対者。理論上はすべての暗号を破ることができる。\\
     
-    \item \textbf{Polynomially Bounded}：多項式時間の計算に制限される敵対者
-    \footnote{
+    \item \textbf{Polynomially Bounded. }多項式時間の計算\footnote{
     ある問題(Problem)を解くときに、その問題の解を求める計算複雑性がオーダー$O(n^c)$ $n, c \in \mathbb{Z}$で表せる。\\
     例えば、離散対数問題、素因数分解問題の難しさなど。\\
-    $Probabilistic$とは確率チューリングマシンにおいて、入力となるセキュリティパラメータ $\lambda \in \mathbb{Z}$（鍵長など）の大きさに対して， 乱数を用いながらも 多項式時間 $\lambda^c$以内で必ず終了するアルゴリズム}
+    一般的には Probabilistic Polynominal Time (PPT) が確率チューリングマシンにおいて、入力となるセキュリティパラメータ $\lambda \in \mathbb{Z}$（鍵長など）の大きさに対して， 乱数を用いながらも 多項式時間 $\lambda^c$以内で必ず終了するアルゴリズム}に制限される敵対者
     
-    \item \textbf{Fine-grained}：特定の具体的な計算制限を持つ敵対者。\\
-    秒間ハッシュ計算回数に制限があるモデル。Bitcoin等のProof-of-Workで使用
+    \item \textbf{Fine-grained. }特定の計算制限を持つ敵対者。\\
+    秒間ハッシュ計算回数に制限があるモデル(Hashrate)
 \end{itemize}
 
 \vspace{0.5em}
@@ -231,47 +257,47 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 \vspace{0.5em}
 
 \begin{itemize}
-    \item \textbf{Fixed}：一度腐敗した参加者はプロトコル実行中ずっと腐敗したままであり、回復することはない
+    \item \textbf{Fixed. }一度腐敗したエンティティはプロトコル実行中ずっと腐敗したままであり、回復することはない
     
-    \item \textbf{\textcolor{red}{Mobile}}：敵対者は参加者を動的に腐敗させたり、回復させたりできる。ただし、任意の時点で腐敗している参加者の総数には上限がある
+    \item \textbf{Mobile. }敵対者はエンティティを動的に腐敗させたり、回復させたりできる。ただし、任意の時点で腐敗しているエンティティの総数には上限がある\footnote{Adaptivity ModelsのAdaptiveとの混同に注意すること。Adaptiveは敵対者がエンティティを腐敗させるタイミングを選択できることを指す。Mobilityはその条件下において、一度腐敗させたエンティティが正常なエンティティとして回復するかどうかを考慮している。}
 \end{itemize}
 
 \vspace{0.5em}
 
 \begin{outlineblock}[]
 IoTやモバイルデバイス、システムの長期運用の視点を考えると、一般的にMobileモデルを考える。
-Adaptivity ModelsのAdaptiveとの混同に注意。
 \end{outlineblock}
 \end{frame}
 
-\begin{frame}{仮定の重要性}
+\begin{frame}{適切な仮定を置くことの重要性}
 セキュリティプロトコルの研究において、\textcolor{red}{仮定の明確化}は極めて重要である。
 
 \vspace{0.5em}
 
 \begin{itemize}
-    \item 仮定が弱すぎる場合：現実的な攻撃に対して脆弱なプロトコルになる可能性がある
-    \item 仮定が強すぎる場合：実装が複雑になり、実用性が低下する可能性がある
+    \item 仮定が弱すぎる場合. 現実的な攻撃に対して脆弱なプロトコルになる可能性がある
+    \item 仮定が強すぎる場合. 設計や実装が複雑になり、その影響でパフォーマンスが下がり、実用性が低下する可能性がある
 \end{itemize}
 
 \vspace{0.5em}
 
 仮定を明示する価値：
 \begin{itemize}
-    \item \textcolor{red}{セキュリティ保証の範囲}を正確に理解できる
-    （「セキュリティ保証」とは、プロトコルが特定の脅威モデルの下で達成できる安全性の明確な指標）
+    \item \textcolor{red}{プロトコルの正当性}を正確に理解できる
     \item 異なるプロトコルを同じ基準で公正に比較できる
 \end{itemize}
 
 \vspace{0.5em}
 
-実際のシステム設計では、特定の用途やリスク許容度に基づいて適切な仮定を選択することが重要である。
+\begin{outlineblock}[]
+実際のシステム設計では、特定の用途や発生しうるリスクに基づいて適切な仮定（脅威モデル）を選択することが重要である。
+\end{outlineblock}
 \end{frame}
 
 \begin{frame}{例：Practical Byzantine Fault Tolerance (PBFT)}
 \begin{proofblock}[PBFT]
 \begin{itemize}
-    \item PBFTは、\textcolor{red}{Byzantine障害を許容}しつつも、Linearlizableを達成するレプリケーションプロトコルである。
+    \item PBFTは、\textcolor{red}{Byzantine障害を許容}しつつも、\\Linearizable\footnote{Linearizableに複製するとは、すべてのレプリカが同じ順序でクライアント要求を処理し、その反映がクライアントのReadリクエストのセッション内で必ず行われる性質である。各複製データにはシーケンス番号が割り当てられ、このシーケンス番号に従って処理される。}を達成するレプリケーションプロトコル\footnote{チューリング完全な状態マシンでは、複製されるデータをオペレーション（状態遷移関数）と見なす。オペレーション$f$, $g$がある場合、一般に$f \circ g \neq g \circ f \neq id$であるため、実行順序が重要になる。}である。
     \item ただし、$n \geq 3f+1$（ここで$f$は敵対者の数、$n$はレプリカの総数）のときに限る。
 \end{itemize}
 \end{proofblock}
@@ -280,11 +306,9 @@ PBFTプロトコルは、非同期通信モデルにおいて初めてLinearliza
 発表から20年経った現在でも、PBFTは依然として広く使われている。
 
 
-\footnote{Linearlizableに複製するとは、すべてのレプリカが同じ順序でクライアント要求を処理することを意味する。各複製データにはシーケンス番号が割り当てられ、このシーケンス番号に従って処理される。}
-\footnote{チューリング完全な状態マシンでは、複製されるデータをオペレーション（状態遷移関数）と見なす。オペレーション$f$, $g$がある場合、一般に$f \circ g \neq g \circ f \neq id$であるため、実行順序が重要になる。}
 \end{frame}
 
-\begin{frame}{PBFTのプロトコル詳細}
+\begin{frame}{PBFTのプロトコル詳細 (1)}
 PBFTの主なフェーズ：
 \vspace{0.5em}
 \begin{enumerate}
@@ -298,33 +322,40 @@ PBFTの主なフェーズ：
 \end{enumerate}
 \end{frame}
 
+
+\begin{frame}{PBFTのプロトコル詳細 (2)}
+
+    図
+
+\end{frame}
+
 \begin{frame}{PBFTの脅威モデル}
-PBFTの脅威モデル：
-\begin{proofblock}[PBFTの脅威モデル]
+PBFTの脅威モデルを考えてみよう。
+\begin{proofblock}[PBFTの脅威モデル $\Lambda_{PBFT}$]
 \begin{itemize}
     \item \textbf{Corruption}：\textcolor{red}{Byzantine} - レプリカは異なるメッセージを異なるレプリカに送信するなど、任意に振る舞うことができる
     \item \textbf{Adaptivity}：Adaptive - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
-    \item \textbf{Computational Power}：PPT - 多項式時間の計算に制限される（暗号署名が偽造不可能と仮定）
+    \item \textbf{Computational Power}：Polynomially Bounded - 多項式時間の計算に制限される（暗号署名が偽造不可能と仮定）
     \item \textbf{Visibility}：Private channels - 正直なレプリカ間の通信内容は秘密であり、内部状態も敵対者からは見えない
     \item \textbf{Mobility}：Mobile - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
 \end{itemize}
 \end{proofblock}
 \end{frame}
 
-\begin{frame}{PBFTのセキュリティ保証}
-PBFTは以下の重要なセキュリティ特性を提供する：
+\begin{frame}{PBFTの正当性保証}
 
-\begin{proofblock}[PBFTの脅威モデル]
-$n \geq 3f + 1$のとき（$f$は敵対者の数、$n$はレプリカの総数）：
+\begin{proofblock}[PBFTの正当性保証]
+$n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの総数）：
 \begin{itemize}
     \item \textbf{\textcolor{red}{安全性} (Safety)}：正直なレプリカが同じシーケンス番号で異なる値をコミットすることはない
     \item \textbf{\textcolor{red}{活性} (Liveness)}：すべてのクライアント要求は最終的に処理され応答が返される
 \end{itemize}
-\end{proofblock}
 
 \vspace{0.5em}
 
-脅威モデルの条件において、SafetyとLivenessを両方満たす場合、PBFTはセキュアであると言える。
+を満たすことを証明できれば、PBFTは正当（Correct）であると言える。
+\end{proofblock}
+すなわち敵対者が脅威モデル $\Lambda_{PBFT}$ の範囲においてどのような攻撃を行っても、SafetyとLivenessを満たすことを証明できれば、PBFTは正当（Correct）であると言える。
 
 \vspace{0.5em}
 
@@ -336,17 +367,17 @@ $n \geq 3f + 1$のとき（$f$は敵対者の数、$n$はレプリカの総数�
 仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされたと仮定する。
 
 \begin{lemma}
-各値がコミットされるためには、少なくとも$2f+1$個のレプリカからPREPAREメッセージが必要である。
+各値がコミットされるためには、少なくとも$2f+1$個のレプリカからPREPAREメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
 \end{lemma}
 
 \begin{itemize}
-    \item 値$v$がコミットされるには少なくとも$2f+1$個のレプリカからのPREPAREメッセージが必要
-    \item 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカからのPREPAREメッセージが必要
-    \item 合計$n \leq 3f+1$レプリカのうち、悪意あるレプリカは最大$f$個
-    \item $2f+1 + 2f+1 - n \geq 2f+1 + 2f+1 - (3f+1) = f+1$
-    \item つまり、少なくとも$f+1$個の\textcolor{red}{正直なレプリカ}が両方の値$v$と$v'$についてPREPAREメッセージを送信したことになる
-    \item しかし、正直なレプリカは同じシーケンス番号に対して複数の値にPREPAREを送信しない（プロトコルの定義により）
-    \item これは矛盾であり、したがって仮定は誤り
+    \item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ$\mathcal{P}$からのPREPAREメッセージが必要
+    \item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ$\mathcal{Q}$からのPREPAREメッセージが必要
+    \item \small 合計$n \leq 3f+1$レプリカのうち、悪意あるレプリカは最大$f$個
+    \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
+    \item \small つまり、少なくとも$f+1$個の\textcolor{red}{正直なレプリカ}が両方の値$v$と$v'$についてPREPAREメッセージを送信したことになる
+    \item \small しかし、許容する腐敗レプリカは最大で$f$個であって、正直なレプリカは同じシーケンス番号に対して複数の値にPREPAREを送信しない（プロトコルの定義により）
+    \item \small これは矛盾であり、したがって仮定は誤り
 \end{itemize}
 \end{frame}
 
