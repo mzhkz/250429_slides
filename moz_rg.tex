@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \usepackage{graphicx}
+\usepackage{tikz}
 
 % カラーとテーブル用パッケージ
 \usepackage{xcolor}
@@ -54,8 +55,8 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]  
 
-\title{\textsc{RG全体講義}: プロトコル設計における脅威の明確化と正当性証明}
-\author{moz@sfc.wide.ad.jp}
+\title{\textsc{SFC-RG 全体講義} \\ プロトコル設計における脅威の明確化と正当性証明}
+\author{moz@sfc.keio.ac.jp}
 \date{\today}
 
 \begin{document}
@@ -139,7 +140,15 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 
 \begin{frame}{敵対者と脅威モデル}
 
-    図
+敵対者は、正直なエンティティを制御し、プロトコルに腐敗したエンティティを導入する。
+% 敵対者は「Send」「Reveal」「Corrupt」などのクエリを使ってエンティティと対話します
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.56\textwidth]{figs/interaction-adversary.png}
+    \caption{敵対者とエンティティの関係。敵対者は正直なエンティティのメッセージを傍受したり、直接エンティティを制御したりすることで、プロトコルに腐敗したエンティティを導入することができる。\footnote{エンティティが直接、腐敗することはないことに注意！}}
+    \label{fig:interaction-adversary}
+\end{figure}
 
 \end{frame}
 
@@ -298,7 +307,7 @@ IoTやモバイルデバイス、システムの長期運用の視点を考え�
 \begin{frame}{例：Practical Byzantine Fault Tolerance (PBFT)}
 \begin{proofblock}[PBFT]
 \begin{itemize}
-    \item PBFTは、\textcolor{red}{Byzantine障害を許容}しつつも、\\Linearizable\footnote{Linearizableに複製するとは、すべてのレプリカが同じ順序でクライアント要求を処理し、その反映がクライアントのReadリクエストのセッション内で必ず行われる性質である。各複製データにはシーケンス番号が割り当てられ、このシーケンス番号に従って処理される。}を達成するレプリケーションプロトコル\footnote{チューリング完全な状態マシンでは、複製されるデータをオペレーション（状態遷移関数）と見なす。オペレーション$f$, $g$がある場合、一般に$f \circ g \neq g \circ f \neq id$であるため、実行順序が重要になる。}である。
+    \item PBFTは、\textcolor{red}{Byzantine障害を許容}しつつも、\\Linearizable\footnote{Linearizableに複製するとは、すべてのレプリカが同じ順序でクライアント要求を処理し、その反映が書き込みリクエストのセッション内で必ず行われる性質である。各複製データにはシーケンス番号が割り当てられ、このシーケンス番号に従って処理される。}を達成するレプリケーションプロトコル\footnote{チューリング完全な状態マシンでは、複製されるデータをオペレーション（状態遷移関数）と見なす。オペレーション$f$, $g$がある場合、一般に$f \circ g \neq g \circ f$であるため、実行順序が重要になる。}である。
     \item ただし、$n \geq 3f+1$（ここで$f$は敵対者の数、$n$はレプリカの総数）のときに限る。
 \end{itemize}
 \end{proofblock}
@@ -326,7 +335,12 @@ PBFTの主なフェーズ：
 
 \begin{frame}{PBFTのプロトコル詳細 (2)}
 
-    図
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figs/pbft-sequence.png}
+    \caption{PBFTのシーケンシャルダイアグラム}
+    \label{fig:pbft_protocol}
+\end{figure}
 
 \end{frame}
 
@@ -383,94 +397,144 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
 \end{frame}
 
 \begin{frame}{複雑化したプロトコルの正当性証明}
-ちょっとお題が変わって、複雑なプロトコルの証明について考えてみよう。
+  実運用では PBFT のようなシンプルなプロトコルは稀であり、既存のプロトコルを部品として組み合わせた複合的なプロトコルが一般的である。
 
-PBFTのようなシンプルなプロコトルはレアケース
+  \begin{itemize}
+    \item 既存のレプリケーション層（例：PBFT）上にアプリケーション層プロトコルを構築することが多い
+          \footnote{例：PBFTのうえにタイムスタンプ機構を作る. kekehoさんのGP2に関連.}
+  \end{itemize}
 
-\begin{itemize}
-    \item PBFTのようなシンプルなプロコトルはレアケース
-    \item プロトコル設計では、既存のプロトコル上に新しいプロトコルを構築することが一般的である\footnote{例えば、PBFTを使用するHyperledger Fabric上に新たなアプリケーションを構築}
-\end{itemize}
+  \begin{proofblock}[ハイブリッドプロトコル]
+    $n$ 個のプロトコル $\pi_1,\dots,\pi_n$ を組み合わせて得られるハイブリッドプロトコルを $\Pi[\pi_1,\dots,\pi_n]$ と表記する。
+    
+  \end{proofblock}
 
-\begin{proofblock}[複雑なプロトコル]
-    複数のプロトコル$\pi_1, \pi_2, \cdots, \pi_n$があったとき、それらを組み合わせたプロトコル$\Pi^{\pi_1, \pi_2, \cdots, \pi_n}$を複雑なプロトコルと呼ぶ。
-\end{proofblock}
-
-\vspace{0.5em}
-
-\textbf{Motivation}：複数のプロトコル$\Pi^{\pi_1, \pi_2, \cdots, \pi_n}$の正当性保証（とりわけSafety）はどう行うか？
-
+  \textbf{Motivation}：複合プロトコル $\Pi[\pi_1,\dots,\pi_n]$ の正当性をどのように示すか？
+  \begin{itemize}
+    \item 各構成要素を個別に分析して全体の正当性を証明できないか？
+    \item 任意の環境での正当性を保証するには？
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Universal Composability Framework}
-Universal Composabilityを用いてプロトコルの正当性証明を行う。
+Universal Composability (UC) Framework を使えば、複雑なプロトコルの正当性を、シンプルな部品の完全性保証を元に示せる。
+つまり、複合プロトコル $\Pi[\pi_1,\dots,\pi_n]$ が正当であることを証明するには、各構成要素 $\pi_1,\dots,\pi_n$ の正当性を証明し、それらの組み合わせ方が適切であることを示す。
 
-\begin{proofblock}[Universal Composability (UC)]
-    Universal Composabilityは、セキュリティ分析において考慮される攻撃の範囲と限界を明示的に定義する。明示的な脅威モデリングが不可欠である。
-\end{proofblock}。
-\vspace{0.5em}
+%   \begin{proofblock}[Universal Composability (UC)]
+%     UC Framework は、プロトコルが理想機能を「UC-realize」することを通じて正当性を定義し，任意の並列合成下でも保証が保持されるよう設計されている．\footnote{正しくは環境 $\mathcal{Z}$ の観点から不可区別になることで正当性を定義するが、わかりやすさ優先でこのような直感的な定義とする。}
+%   \end{proofblock}
 
-これにより、複雑なシステムの分析を、より単純な構成要素の分析に還元できる。
+  \begin{proofblock}[理想機能 $\mathcal{F}$の定義]
+    理想機能 $\mathcal{F}$ とは、任意の関数 $f$ を実行する計算要素であり、全てのエンティティから入力を受け取り、$f$ を計算し、各エンティティに出力を返す。
+    すなわち、インターフェースを定義し、任意の入力に対して、出力を返す写像 $f$ を定義する。
+    これは破壊不可能(すなわち、インターフェースや$f$の写像を変更することができない)な信頼されたエンティティとして考えることができる。
+  \end{proofblock}
+
+  \begin{proofblock}[プロトコル $\pi$ の定義]
+    プロトコル $\pi$ とは、実際のプログラムであり、複数のエンティティ間で実行される手続き（プロトコルの具体的な実装）である。
+    これは理想機能 $\mathcal{F}$ を実現するために設計され、メッセージの交換、計算処理、状態の管理などを含む具体的な手続きの集合である。
+  \end{proofblock}
 \end{frame}
 
+\begin{frame}{理想／現実世界パラダイム}
+    UCには理想機能$\mathcal{F}$とプロトコル$\pi$を実行するために二つの世界がある:
 
-\begin{frame}{理想/現実世界パラダイム}
-    parapappapa...
-    プロトコルには任意の入力を受け取り、出力機能が存在する。\footnote{PBFTでは、クライアントからの入力を受け取り、$2f + 1$個のレプリカの出力を返す。期待する写像としては入力と出力が同一な恒等写像である。}
-\end{frame}
-
-\begin{frame}{理想と現実世界}
-
-\begin{proofblock}[理想世界 (Ideal World)]
+    \begin{proofblock}[理想世界 (Ideal World)]
     \begin{itemize}
-        \item \small プロトコルのインターフェースを定義し理想となる入力と出力の写像を定義する。\\これを理想機能 $\mathcal{F}$という。
-        \item \small 理想世界で敵対者を模倣するエンティティのシミュレータ$Sim$が存在する。
-        \item \small シミュレータ$Sim$は、理想機能 $\mathcal{F}$ を呼び出す
+      \item 理想機能 $\mathcal{F}$ が計算を行い，敵対者はシミュレータ $Sim$ として振る舞う。
+      \item ダミーエンティティは入力を $\mathcal{F}$ に送り、$\mathcal{F}$ からの出力を環境$\mathcal{Z}$に返す。
+      \item シミュレータ $Sim$ は理想機能 $\mathcal{F}$ とのインターフェースを通じて、現実世界の敵対者の行動を模倣し、その結果を環境に返す。
     \end{itemize}
-\end{proofblock}
+  \end{proofblock}
 
-\begin{proofblock}[現実世界 (Real World)]
+
+  \begin{proofblock}[現実世界 (Real World)]
     \begin{itemize}
-        \item \small インターフェースにそって実際の手続きと計算を定義する。これをプロトコル$\Pi$ という。
-        \item \small プロトコル$\Pi$ は各エンティティによって実行され、敵対者 $\mathcal{A}$ の攻撃に晒される
-        \item \small 敵対者は腐敗したエンティティを制御し、プロトコルの実行を妨害しようとする
-        \item \small 現実世界では、プロトコルの正当性は自明ではない (自明を示すためのするための証明だからね！)
+      \item 現実世界は実プロトコル $\pi$ とその参加エンティティ、敵対者 $\mathcal{A}$で構成される。
+      \item エンティティたちはプロトコル $\pi$ に従って互いに通信しながら計算を進める。
+      \item 敵対者 $\mathcal{A}$ は腐敗したエンティティを制御し、全ての内部状態やアクションが $\mathcal{A}$ によって制御される。
+      \item 環境 $\mathcal{Z}$ はエンティティと敵対者に入力を提供し、全ての出力を収集する。
     \end{itemize}
-\end{proofblock}
+  \end{proofblock}
+
+  \begin{outlineblock}{}
+    理想世界は「完全に信頼できるエンティティ$\mathcal{F}$が全ての処理を行う世界」と考えることができる。
+    一方、現実世界は「信頼できるエンティティがいないため、エンティティ同士が通信しながら処理を行う世界」考えることができる。
+    したがって、プロトコルが正当であるとは、現実世界で各エンティティによって実行されたプロトコル $\pi$ が、理想世界で実行された理想機能 $\mathcal{F}$ と区別できないことを意味する。\footnote{正確には無視できる確率で区別できないである。なぜなら、UCは確率的多項式時間敵対者に対してのみ成立するからである。}
+  \end{outlineblock}
+
+%   \footnote{例：PBFT ではクライアント入力 $m$ が $2f+1$ 台のレプリカで合意され，出力は恒等写像 $m\mapsto m$ を期待する。}
 \end{frame}
 
 
-\begin{frame}{Universal Composability Framework（続き）}
-\begin{proofblock}[環境$\mathcal{Z}$]
+\begin{frame}{理想と現実を区別する環境というエンティティ}
+    \begin{proofblock}[環境 $\mathcal{Z}$]
     \begin{itemize}
-        \item \small プロトコル以外（外部）のすべてのシステム（ユーザー、他のプロトコル等）を表現する
-        \item \small 環境は、理想世界のシミュレータと現実世界のエンティティと敵対者の両者に入力を提供し、出力を受け取る (対話)
-        \item \small 環境は出力から理想世界と現実世界の区別がつかないかをチェックする
+      \item 環境 $\mathcal{Z}$ はプロトコル外の全てのシステム（ユーザ，他のプロトコルなど）を抽象化したもの。
+      \item $\mathcal{Z}$ は理想世界ではダミーエンティティと $\mathcal{F}$ およびシミュレータ $Sim$ に、現実世界ではエンティティと敵対者 $\mathcal{A}$ に対して入力を送り、出力を受け取る。
+      \item $\mathcal{Z}$ は両世界の相互作用を観察し、どちらの世界で実行されているかを推測しようとする。\footnote{$\mathcal{Z}$ は現実世界における $\pi$ と $\mathcal{A}$ との相互作用と、理想世界における $\mathcal{F}$ と $Sim$ との相互作用の違いを探し出す}
     \end{itemize}
-\end{proofblock}
-    
-
-\begin{proofblock}[プロトコル$\Pi$が正当である定義]
-\small 脅威モデル $\Lambda$ における任意の敵対者 $\mathcal{A}$ に対して、対応するシミュレータ $\mathcal{S}$ が理想世界に存在し、どんな環境 $\mathcal{Z}$ も以下を区別できないこと：
-\begin{itemize}
-    \item \small 実際のプロトコル $\Pi$ と敵対者 $\mathcal{A}$ との対話
-    \item \small 理想機能 $\mathcal{F}$ とシミュレータ $\mathcal{S}$ との対話
-\end{itemize}
-\end{proofblock}
-難しく説明したけど、要件に沿っていることを数理的、論理的に示そうねということです。
+  \end{proofblock}
 \end{frame}
 
+\begin{frame}{UCにおける正当性の主張}
+  \begin{proofblock}[UC正当性の定義]
+   環境 $\mathcal{Z}$ は現実世界と理想世界の相互作用の違いを探そうとするが、どちらも区別できなければ$\pi$ は理想機能 $\mathcal{F}$ を正当に実現していると言える。\footnote{これを「$\pi$ は $\mathcal{F}$ を UC-realize する」という}。
 
-\begin{frame}{何が嬉しいのか？}
-
-\begin{itemize}
-    \item \textbf{ネットワークモデル}：非同期か同期か、部分同期（通信遅延に上限がある）か
-    \item \textbf{敵対者モデル}： 敵対者はどのように振る舞うか
-    \item \textbf{腐敗ノードの数}：攻撃者が制御できるエンティティの数の条件 ($n \geq 3f+1$ など)
-\end{itemize}
-
-\textbf{Question}: 実世界で動かす上で考えるべき脅威、仮定はこれだけか？
+    \medskip
+    \textbf{厳密な定義}
+    セキュリティパラメータ $\kappa \in \mathbb{N}$ とプロトコル $\Pi$ について、以下が成り立つとき、$\Pi$ は理想機能 $\mathcal{F}$ を``UC-realize''するという：
+    任意の確率的多項式時間\footnote{UCでは確率的多項式時間敵対者に対してのみ成立する}敵対者 $\mathcal{A}$ に対し，確率的多項式時間アルゴリズム $Sim$ が存在し，任意の確率的多項式時間環境 $\mathcal{Z}$ と任意の入力 $x \in \{0,1\}^*$ について：
+    % \[ IDEAL_{\mathcal{F},Sim,\mathcal{Z}}(\kappa, x) \approx_c REAL_{\Pi,\mathcal{A},\mathcal{Z}}(\kappa, x) \]
+  \end{proofblock}
 \end{frame}
+
+\begin{frame}{UCを使うと、正当性証明において何が嬉しいのか？}
+  \begin{itemize}
+    \item \textbf{モジュール性 (Modularity). } 複雑な課題を小さなプロトコルに分解でき、各プロトコルの正当性を独立して証明できる。
+    \item \textbf{合成定理 (Composition Theorem). } プロトコル $\pi$ が理想機能 $\mathcal{F}$ をUC-realizeし、プロトコル $\rho$ が $\mathcal{F}$ を使って理想機能 $\mathcal{G}$ をUC-realizeするなら、$\pi$ で $\mathcal{F}$ を置き換えたプロトコル $\rho^{\mathcal{F} \rightarrow \pi}$ も $\mathcal{G}$ をUC-realizeする。
+  \end{itemize}
+  
+  \begin{outlineblock}{}
+    UCフレームワークの核心は「合成可能性 (Composability)」：一度証明されたプロトコルの正当性は、どのような複雑な環境でも保持される。これにより、安全なプロトコルの段階的な構築と再利用が可能になる。
+  \end{outlineblock}
+\end{frame}
+
+\begin{frame}{プロトコルインスタンスとセッション識別}
+  実世界では、同じプロトコルの複数のコピーが異なるユーザーによって同時に実行される。
+  プロトコルはいわば型であり、実際にはその型の実体であるインスタンスが実行される。
+  
+  \begin{proofblock}[プロトコルインスタンス]
+    プロトコル $\pi$ のインスタンスとは、そのプロトコルの具体的な実行例であり、通常は一意の識別子で区別される。
+  \end{proofblock}
+  
+  \begin{itemize}
+    \item \textbf{セッション識別子 (sid)}：各プロトコル実行を識別する一意の識別子
+    \item たとえば...ブロックチェーン上では、スマートコントラクトのアドレスが$sid$として機能する
+  \end{itemize}
+  
+  \begin{outlineblock}{}
+    UCフレームワークでのインスタンス処理: 基本的なUCフレームワークでは、各プロトコルインスタンスは独自のハイブリッド機能インスタンスを持つ。
+    しかし、これは現実的ではない場合がある（例：同じハッシュ関数が複数のプロトコルで使用される場合）。
+  \end{outlineblock}
+\end{frame}
+
+\begin{frame}{一般化されたUniversal Composability (GUC) Framework}
+  \begin{proofblock}[GUC Frameworkとは]
+    UCの拡張フレームワークで、複数のプロトコルインスタンスで共有される「グローバル機能」の概念を導入している。
+  \end{proofblock}
+  
+  \begin{proofblock}[グローバル機能 (Global Functionality)]
+    \begin{itemize}
+      \item 複数のプロトコルインスタンスで共有される機能
+      \item 例：ハッシュ関数、デジタル署名、共有台帳など
+      \item すべてのプロトコルセッションで一貫した内部状態を維持
+    \end{itemize}
+  \end{proofblock}
+
+  GUCによって、並列実行環境を実現するだけではなく、インスタンスを個別に分析する必要がない。
+\end{frame}
+
 
 \begin{frame}{本当に仮定はこれだけでいいのか？}
 ここまでで用いた仮定は以下の通りである：
@@ -584,4 +648,10 @@ Universal Composabilityを用いてプロトコルの正当性証明を行う。
     \item https://www.bu.edu/macs/files/2016/03/2016-03-18-uc-tutorial-slides.pdf
     \end{itemize}
 \end{frame}
+
+
+% ・・・・・・・・・・
+
+
+
 \end{document}
