@@ -269,35 +269,30 @@ Adaptivity ModelsのAdaptiveとの混同に注意。
 \end{frame}
 
 \begin{frame}{例：Practical Byzantine Fault Tolerance (PBFT)}
-PBFTは、\textcolor{red}{Byzantine障害を許容する状態マシンレプリケーション}プロトコルである。
+\begin{proofblock}[PBFT]
+\begin{itemize}
+    \item PBFTは、\textcolor{red}{Byzantine障害を許容}しつつも、Linearlizableを達成するレプリケーションプロトコルである。
+    \item ただし、$n \geq 3f+1$（ここで$f$は敵対者の数、$n$はレプリカの総数）のときに限る。
+\end{itemize}
+\end{proofblock}
 
-\vspace{0.5em}
+PBFTプロトコルは、非同期通信モデルにおいて初めてLinearlizableを達成することを示したプロトコルである。
+発表から20年経った現在でも、PBFTは依然として広く使われている。
 
-% レプリカの定義を追加
-\textbf{レプリカ}：分散システム内で同一の状態を維持し、同一の操作を実行する複製ノード。
 
-\vspace{0.5em}
-
-前提：$n \geq 3f+1$、ここで$f$は敵対者の数、$n$はレプリカの総数
-
-\vspace{0.5em}
-
-このとき、正直なレプリカは、敵対者の影響を受けずに、「データをLinearlizable」に複製できる。
 \footnote{Linearlizableに複製するとは、すべてのレプリカが同じ順序でクライアント要求を処理することを意味する。各複製データにはシーケンス番号が割り当てられ、このシーケンス番号に従って処理される。}
 \footnote{チューリング完全な状態マシンでは、複製されるデータをオペレーション（状態遷移関数）と見なす。オペレーション$f$, $g$がある場合、一般に$f \circ g \neq g \circ f \neq id$であるため、実行順序が重要になる。}
 \end{frame}
 
 \begin{frame}{PBFTのプロトコル詳細}
 PBFTの主なフェーズ：
-
 \vspace{0.5em}
-
 \begin{enumerate}
     \item \textbf{Pre-prepare}：プライマリ（リーダー）$p$がクライアント要求$r$にシーケンス番号$s$を割り当て、$\langle \text{PRE-PREPARE}, s, r \rangle$メッセージを他のレプリカに送信
     
     \item \textbf{Prepare}：レプリカが要求の順序に合意し、$\langle \text{PREPARE}, s, r \rangle$メッセージを全レプリカに送信
     
-    \item \textbf{\textcolor{red}{Commit}}：少なくとも$2f+1$のPREPAREメッセージを受信したレプリカは$\langle \text{COMMIT}, s, r \rangle$メッセージを送信し、実行を確約
+    \item \textbf{Commit}：少なくとも$2f+1$のPREPAREメッセージを受信したレプリカは$\langle \text{COMMIT}, s, r \rangle$メッセージを送信し、実行を確約
     
     \item \textbf{Reply}：$2f+1$のCOMMITメッセージを受信したレプリカは要求を実行し、結果をクライアントに返送
 \end{enumerate}
@@ -305,50 +300,44 @@ PBFTの主なフェーズ：
 
 \begin{frame}{PBFTの脅威モデル}
 PBFTの脅威モデル：
+\begin{proofblock}[PBFTの脅威モデル]
 \begin{itemize}
-    \item \textbf{腐敗}：\textcolor{red}{Byzantine} - レプリカは異なるメッセージを異なるレプリカに送信するなど、任意に振る舞うことができる
-    \item \textbf{適応性}：Adaptive - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
-    \item \textbf{計算}：PPT - 多項式時間の計算に制限される（暗号署名が偽造不可能と仮定）
-    \item \textbf{可視性}：Private channels - 正直なレプリカ間の通信内容は秘密であり、内部状態も敵対者からは見えない
+    \item \textbf{Corruption}：\textcolor{red}{Byzantine} - レプリカは異なるメッセージを異なるレプリカに送信するなど、任意に振る舞うことができる
+    \item \textbf{Adaptivity}：Adaptive - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
+    \item \textbf{Computational Power}：PPT - 多項式時間の計算に制限される（暗号署名が偽造不可能と仮定）
+    \item \textbf{Visibility}：Private channels - 正直なレプリカ間の通信内容は秘密であり、内部状態も敵対者からは見えない
+    \item \textbf{Mobility}：Mobile - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
 \end{itemize}
+\end{proofblock}
 \end{frame}
 
 \begin{frame}{PBFTのセキュリティ保証}
 PBFTは以下の重要なセキュリティ特性を提供する：
 
-\vspace{0.5em}
-
+\begin{proofblock}[PBFTの脅威モデル]
 $n \geq 3f + 1$のとき（$f$は敵対者の数、$n$はレプリカの総数）：
 \begin{itemize}
     \item \textbf{\textcolor{red}{安全性} (Safety)}：正直なレプリカが同じシーケンス番号で異なる値をコミットすることはない
-    
     \item \textbf{\textcolor{red}{活性} (Liveness)}：すべてのクライアント要求は最終的に処理され応答が返される
 \end{itemize}
+\end{proofblock}
 
 \vspace{0.5em}
 
-SafetyとLivenessを両方満たす場合、PBFTはセキュアであると言える。
+脅威モデルの条件において、SafetyとLivenessを両方満たす場合、PBFTはセキュアであると言える。
 
 \vspace{0.5em}
 
-\textbf{なぜ$n \geq 3f + 1$のときSafetyが満たされるのか？}\\
 
-\vspace{0.5em}
-
-\begin{tcolorbox}[colframe=black, colback=white, boxrule=1pt, boxsep=5pt]
-\textbf{Question}: PBFTがセキュアであることをどのように証明するか？説明してみよう。
-\end{tcolorbox}
+\textbf{Question}: なぜ$n \geq 3f + 1$のときSafetyが満たされるのか？ PBFTがセキュアであることを説明してみよう！
 \end{frame}
 
-\begin{frame}{プロトコルセキュリティの証明}
+\begin{frame}{PBFTのSafety証明}
 仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされたと仮定する。
-
-\vspace{0.5em}
 
 \begin{lemma}
 各値がコミットされるためには、少なくとも$2f+1$個のレプリカからPREPAREメッセージが必要である。
 \end{lemma}
-
 
 \begin{itemize}
     \item 値$v$がコミットされるには少なくとも$2f+1$個のレプリカからのPREPAREメッセージが必要
@@ -362,6 +351,8 @@ SafetyとLivenessを両方満たす場合、PBFTはセキュアであると言�
 \end{frame}
 
 \begin{frame}{合成可能性問題 (Composability Problem)}
+ちょっとお題が変わって、複雑なプロトコルの証明について考えてみよう。
+
 分散システムでは、既存のプロトコル上に新しいプロトコルを構築することが一般的である\footnote{例えば、PBFTを使用するHyperledger Fabric上に新たなアプリケーションを構築}
 
 \vspace{0.5em}
