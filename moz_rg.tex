@@ -581,8 +581,8 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 \begin{frame}{トップコンファレンスに出版されてる論文を眺めてみよう}
 ``FairSwap: How to Fairly Exchange Digital Goods''というACM CCS 2020というトップコンファレンスで出版された論文を眺めてみよう。
 \begin{outlineblock}{}
-    この論文は、AとBの間でデジタルデータ$x$と$y$を交換するプロトコルを提案している。
-    $P: \mathcal{A} \stackrel{x}{\rightarrow} \mathcal{B}$
+    この論文は、$\mathcal{A}$と$\mathcal{B}$の間でデジタルデータ$x$と$y$を交換するプロトコルを提案している。
+    $P: \mathcal{A} \stackrel{x}{\rightarrow} \mathcal{B}$, 
     $Q: \mathcal{B} \stackrel{y}{\rightarrow}  \mathcal{A}$
     をどちらも満たすか、どちらも満たさないかを保証するプロトコル
 
@@ -625,7 +625,7 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 
 \begin{outlineblock}[Sybil Attackの条件]
     PBFTでは$n \geq 3f+1$の条件がある。$n$はノードの数、$f$は敵対者の数である。
-    これは各レプリカが一意に識別化であり、メッセージの送信元に偽りがないことを暗黙の前提においている
+    これは各レプリカが一意に識別可能であり、メッセージの送信元に偽りがないことを暗黙の前提においている
     敵対者が単一のエンティティ（敵対者）が複数のエンティティとして振る舞えることを許すと、条件が破綻する。\footnote{Corruption ModelのByzantineに一定の妥協を許している。これはいいのか？}
 \end{outlineblock}
 \end{frame}
@@ -645,7 +645,7 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 
 
 \begin{frame}{メッセージの真正性の検証}
-エンティティ$\mathcal{P}$がメッセージ$m$をエンティティの$\mathcal{Q}$に送付したとする。
+エンティティ$\mathcal{P}$がメッセージ$m$をエンティティ$\mathcal{Q}$に送付したとする。
 エンティティ$\mathcal{Q}$はメッセージ$m$を確かに$\mathcal{P}$から受け取ったことを検証する必要がある。
 
 \vspace{0.5em}
@@ -660,7 +660,7 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
     検証の正当性確保に必要な仮定: $\mathcal{Q}$は$\mathcal{P}$の公開鍵$pk_{\mathcal{P}}$を知っている。
 \end{outlineblock}
 
-\textbf{Question}: これだけでよいか？
+\textbf{Question}: これだけでSybil Attackを防げるか？
 
 \end{frame}
 
@@ -690,7 +690,7 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 
 \begin{outlineblock}
     \begin{itemize}
-        \item 分散システムの文脈でプロトコルを俯瞰すると、分散システムの魅力や効力を最大限発揮できないボトルネック（暗黙、非自明な仮定）が存在する。それは必ずしも学術論文に書かれているとは限らない。
+        \item 分散システムの文脈で(Byzantine Fault Toleranceな)プロトコルを俯瞰すると、分散システムの魅力や効力を最大限発揮できないボトルネック（暗黙、非自明な仮定）が存在する。それは必ずしも学術論文に書かれているとは限らない。
     \end{itemize}
 \end{outlineblock}
 
