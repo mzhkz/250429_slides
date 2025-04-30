@@ -146,13 +146,13 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 
 \begin{frame}{敵対者と脅威モデル}
 
-敵対者は、正直なエンティティを制御し、プロトコルに腐敗したエンティティを導入する。
+敵対者は、誠実なエンティティを制御し、プロトコルに腐敗したエンティティを導入する。
 % 敵対者は「Send」「Reveal」「Corrupt」などのクエリを使ってエンティティと対話します
 
 \begin{figure}
     \centering
     \includegraphics[width=0.56\textwidth]{figs/interaction-adversary.png}
-    \caption{敵対者とエンティティの関係。敵対者は正直なエンティティのメッセージを傍受したり、直接エンティティを制御したりすることで、プロトコルに腐敗したエンティティを導入することができる。\footnote{エンティティが直接、腐敗することはないことに注意！}}
+    \caption{敵対者とエンティティの関係。敵対者は誠実なエンティティのメッセージを傍受したり、直接エンティティを制御したりすることで、プロトコルに腐敗したエンティティを導入することができる。\footnote{エンティティが直接、腐敗することはないことに注意！}}
     \label{fig:interaction-adversary}
 \end{figure}
 
@@ -229,11 +229,11 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 \begin{itemize}
     \item \textbf{Full Information. }敵対者はすべてのメッセージ内容と各エンティティの内部状態（実行中の変数）を完全に観察可能
     
-    \item \textbf{Private Channels. }正直なエンティティ間の通信内容は敵対者から隠されるが、通信の発生事実やメタデータ（送信元、宛先、タイミング、メッセージサイズ等）は観察可能。腐敗したエンティティの状態、メッセージ内容は観察可能。
+    \item \textbf{Private Channels.} 誠実なエンティティ間の通信内容は完全に秘密であり、敵対者はメッセージの送受信の事実を知ることはできても内容を見ることはできない。また誠実なエンティティ内部状態も敵対者からは隠蔽される。
     
     \item \textbf{Erasure Model. }Private Channelsに対して、参加者が腐敗する前に消去されたデータは、敵対者は観察・復元できない制約を足したもの。
     
-    \item \textbf{Oblivious. }メッセージのヘッダー情報（送信元、宛先、長さ）のみを観察可能で、内容は完全に隠蔽される。\footnote{Trusted Computingのようなシステムでは、このモデルを考えることが多い。}
+    \item \textbf{Oblivious.} メッセージのヘッダー情報（送信元、宛先、長さ）は敵対者に観察可能だが、メッセージの内容（ペイロード）は完全に隠蔽される。通信の存在自体とそのメタデータは露出するが、内容は保護される。\footnote{特定の暗号化通信プロトコルや匿名通信システムで利用される概念である。}
 \end{itemize}
 
 \begin{outlineblock}[]
@@ -255,7 +255,7 @@ An adversary refers to an attacker, typically with malicious intent, who underta
     一般的には Probabilistic Polynominal Time (PPT) が確率チューリングマシンにおいて、入力となるセキュリティパラメータ $\lambda \in \mathbb{Z}$（鍵長など）の大きさに対して， 乱数を用いながらも 多項式時間 $\lambda^c$以内で必ず終了するアルゴリズム}に制限される敵対者
     
     \item \textbf{Fine-grained. }特定の計算制限を持つ敵対者。\\
-    秒間ハッシュ計算回数に制限があるモデル(Hashrate)
+    例えば、秒間ハッシュ計算回数に制限があるモデル(Hashrate)
 \end{itemize}
 
 \vspace{0.5em}
@@ -318,7 +318,7 @@ IoTやモバイルデバイス、システムの長期運用の視点を考え�
 \end{itemize}
 \end{proofblock}
 
-PBFTプロトコルは、非同期通信モデルにおいて初めてLinearlizableを達成することを示したプロトコルである。
+PBFTプロトコルは、部分同期モデルにおいて初めてLinearlizableを達成することを示したプロトコルである。
 発表から20年経った現在でも、PBFTは依然として広く使われている。
 
 
@@ -356,8 +356,8 @@ PBFTの脅威モデルを考えてみよう。
 \begin{itemize}
     \item \textbf{Corruption}：\textcolor{red}{Byzantine} - レプリカは異なるメッセージを異なるレプリカに送信するなど、任意に振る舞うことができる
     \item \textbf{Adaptivity}：Adaptive - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
-    \item \textbf{Computational Power}：Polynomially Bounded - 多項式時間の計算に制限される（暗号署名が偽造不可能と仮定）
-    \item \textbf{Visibility}：Private channels - 正直なレプリカ間の通信内容は秘密であり、内部状態も敵対者からは見えない
+    \item \textbf{Computational Power}：Polynomially Bounded - 多項式時間の計算に制限される
+    \item \textbf{Visibility}：Private channels - 誠実なレプリカ間の通信内容は秘密であり、内部状態も敵対者からは見えない
     \item \textbf{Mobility}：Mobile - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
 \end{itemize}
 \end{proofblock}
@@ -368,7 +368,7 @@ PBFTの脅威モデルを考えてみよう。
 \begin{proofblock}[PBFTの正当性保証]
 $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの総数）：
 \begin{itemize}
-    \item \textbf{\textcolor{red}{安全性} (Safety)}：正直なレプリカが同じシーケンス番号で異なる値をコミットすることはない
+    \item \textbf{\textcolor{red}{安全性} (Safety)}：誠実なレプリカが同じシーケンス番号で異なる値をコミットすることはない
     \item \textbf{\textcolor{red}{活性} (Liveness)}：すべてのクライアント要求は最終的に処理され応答が返される
 \end{itemize}
 
@@ -396,8 +396,8 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
     \item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのPREPAREメッセージが必要
     \item \small 合計$n \leq 3f+1$レプリカのうち、悪意あるレプリカは最大$f$個
     \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
-    \item \small つまり、少なくとも$f+1$個の\textcolor{red}{正直なレプリカ}が両方の値$v$と$v'$についてPREPAREメッセージを送信したことになる
-    \item \small しかし、許容する腐敗レプリカは最大で$f$個であって、正直なレプリカは同じシーケンス番号に対して複数の値にPREPAREを送信しない（プロトコルの定義により）
+    \item \small つまり、少なくとも$f+1$個の\textcolor{red}{誠実なレプリカ}が両方の値$v$と$v'$についてPREPAREメッセージを送信したことになる
+    \item \small しかし、許容する腐敗レプリカは最大で$f$個であって、誠実なレプリカは同じシーケンス番号に対して複数の値にPREPAREを送信しない（プロトコルの定義により）
     \item \small これは矛盾であり、したがって仮定は誤り
 \end{itemize}
 \end{frame}
@@ -411,11 +411,11 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
   \end{itemize}
 
   \begin{proofblock}[ハイブリッドプロトコル]
-    $n$ 個のプロトコル $\pi_1,\dots,\pi_n$ を組み合わせて得られるハイブリッドプロトコルを $\Pi[\pi_1,\dots,\pi_n]$ と表記する。
+    $n$ 個のプロトコル $\pi_1,\dots,\pi_n$ を組み合わせて得られるハイブリッドプロトコルを $\pi[\pi_1,\dots,\pi_n]$ と表記する。
     
   \end{proofblock}
 
-  \textbf{Motivation}：複合プロトコル $\Pi[\pi_1,\dots,\pi_n]$ の正当性をどのように示すか？
+  \textbf{Motivation}：複合プロトコル $\pi[\pi_1,\dots,\pi_n]$ の正当性をどのように示すか？
   \begin{itemize}
     \item 各構成要素を個別に分析して全体の正当性を証明できないか？
     \item 任意の環境での正当性を保証するには？
@@ -424,12 +424,11 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
 
 \begin{frame}{Universal Composability Framework}
 UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプルな部品の完全性保証を元に示せる。
-つまり、複合プロトコル $\Pi[\pi_1,\dots,\pi_n]$ が正当であることを証明するには、各構成要素 $\pi_1,\dots,\pi_n$ の正当性を証明し、それらの組み合わせ方が適切であることを示す。
+つまり、複合プロトコル $\pi[\pi_1,\dots,\pi_n]$ が正当であることを証明するには、各構成要素 $\pi_1,\dots,\pi_n$ の正当性を証明し、それらの組み合わせ方が適切であることを示す。
 
   \begin{proofblock}[理想機能 $\mathcal{F}$の定義]
-    理想機能 $\mathcal{F}$ とは、任意の関数 $f$ を実行するエンティティであり、全てのエンティティから入力を受け取り、$f$ を計算し、各エンティティに出力を返す。
-    すなわち、プロトコルのインターフェースを定義し、任意の入力に対して、出力を返す写像 $f$ を定義する。
-    これは破壊不可能(すなわち、インターフェースや$f$の写像を変更することができない)な信頼されたエンティティとして考えることができる。
+    理想機能 $\mathcal{F}$ とは、エンティティから入力を受け取り、$f$ を計算し、各エンティティに出力を返す。
+    すなわち、プロトコルのインターフェースを定義し、任意の入力に対して、出力を返す写像 $f$ を定義する。\footnote{これは破壊不可能(すなわち、インターフェースや$f$の写像を変更することができない)な信頼されたエンティティとして考えることができる。}
   \end{proofblock}
 
   \begin{proofblock}[プロトコル $\pi$ の定義]
@@ -502,9 +501,9 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 
     \medskip
     \small \textbf{厳密な定義. }
-    \small セキュリティパラメータ $\kappa \in \mathbb{N}$ とプロトコル $\Pi$ について、以下が成り立つとき、$\pi$ は理想機能 $\mathcal{F}$ を``UC-realize''するという：
+    \small セキュリティパラメータ $\lambda \in \mathbb{N}$ とプロトコル $\pi$ について、以下が成り立つとき、$\pi$ は理想機能 $\mathcal{F}$ を``UC-realize''するという：
     \small 任意の確率的多項式時間\footnote{UCでは確率的多項式時間敵対者に対してのみ成立する}敵対者 $\mathcal{A}$ に対し，確率的多項式時間アルゴリズム $Sim$ が存在し，任意の 確率的多項式時間環境 $\mathcal{Z}$ と任意の入力 $x \in \{0,1\}^*$ について：
-    \[ EXEC_{\mathcal{F},Sim,\mathcal{Z}}(\kappa, x) \approx EXEC_{\Pi,\mathcal{A},\mathcal{Z}}(\kappa, x) \]
+    \[ EXEC_{\mathcal{F},Sim,\mathcal{Z}}(\lambda, x) \approx EXEC_{\pi,\mathcal{A},\mathcal{Z}}(\lambda, x) \]
   \end{proofblock}
 \end{frame}
 
@@ -573,6 +572,33 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 \begin{figure}
         \centering
         \includegraphics[width=0.58\textwidth]{figs/uc-citation.png}
+        \caption{2023年4月30日の時点でのUCフレームワークの引用数}
+        \label{fig:uc_citation}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{トップコンファレンスに出版されてる論文を眺めてみよう}
+``FairSwap: How to Fairly Exchange Digital Goods''というACM CCS 2020というトップコンファレンスで出版された論文を眺めてみよう。
+\begin{outlineblock}{}
+    この論文は、AとBの間でデジタルデータ$x$と$y$を交換するプロトコルを提案している。
+    $P: \mathcal{A} \stackrel{x}{\rightarrow} \mathcal{B}$
+    $Q: \mathcal{B} \stackrel{y}{\rightarrow}  \mathcal{A}$
+    をどちらも満たすか、どちらも満たさないかを保証するプロトコル
+
+    \medskip
+
+    この理想機能$\mathcal{F}_{fe}$を定義した上で、ブロックチェーン機能をもつグローバル機能$\mathcal{L}$とランダムオラクル$\mathcal{H}$を定義している。
+    
+\end{outlineblock}
+
+\begin{center}
+    \url{https://dl.acm.org/doi/pdf/10.1145/3243734.3243857}
+\end{center}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.58\textwidth]{figs/fairswap.png}
         \caption{2023年4月30日の時点でのUCフレームワークの引用数}
         \label{fig:uc_citation}
 \end{figure}
@@ -675,8 +701,8 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 どうやったらインパクトのある問題を見つけるか？
 \begin{outlineblock}
     \begin{itemize}
-        \item 運用を片手に持つ、ということは、理論の中で議論されたプロトコルの解釈方法を多様化できる力があることと等しい。
-        \item すなわちそのプロトコルが置かれる状況（提案手法の論理を支える仮定\footnote{例えば、敵対者モデル、ネットワーク、タイミングモデル}）を変えるとボトルネックが無視できるか、できないかを判断できる。
+        \item 運用を片手に持つ、ということは、理論の中で議論されたプロトコルを解釈する選択肢を広げることと等しい。
+        \item すなわちそのプロトコルが置かれる状況（提案手法の論理を支える仮定\footnote{例えば、敵対者モデル、ネットワーク、タイミングモデル}）を運用から得られた洞察をもとに変えてみて、ボトルネックが無視できるか、できないかを判断できる。
         \item そのような探求がインパクトがあり、明確なProblem Statementに役立つとmozは信じている。
     \end{itemize}
 \end{outlineblock}
