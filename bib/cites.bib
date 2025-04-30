@@ -1,0 +1,907 @@
+
+
+@article{ss,
+  author     = {Shamir, Adi},
+  title      = {How to share a secret},
+  year       = {1979},
+  issue_date = {Nov. 1979},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {22},
+  number     = {11},
+  issn       = {0001-0782},
+  url        = {https://doi.org/10.1145/359168.359176},
+  doi        = {10.1145/359168.359176},
+  abstract   = {In this paper we show how to divide data D into n pieces in such a way that D is easily reconstructable from any k pieces, but even complete knowledge of k - 1 pieces reveals absolutely no information about D. This technique enables the construction of robust key management schemes for cryptographic systems that can function securely and reliably even when misfortunes destroy half the pieces and security breaches expose all but one of the remaining pieces.},
+  journal    = {Commun. ACM},
+  month      = nov,
+  pages      = {612–613},
+  numpages   = {2},
+  keywords   = {cryptography, interpolation, key management}
+}
+
+
+
+
+@article{Linearizability,
+  author = {Herlihy, Maurice P. and Wing, Jeannette M.},
+  title = {Linearizability: A Correctness Condition for Concurrent Objects},
+  year = {1990},
+  issue_date = {July 1990},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  volume = {12},
+  number = {3},
+  issn = {0164-0925},
+  url = {https://doi.org/10.1145/78969.78972},
+  doi = {10.1145/78969.78972},
+  abstract = {A concurrent object is a data object shared by concurrent processes. Linearizability is a correctness condition for concurrent objects that exploits the semantics of abstract data types. It permits a high degree of concurrency, yet it permits programmers to specify and reason about concurrent objects using known techniques from the sequential domain. Linearizability provides the illusion that each operation applied by concurrent processes takes effect instantaneously at some point between its invocation and its response, implying that the meaning of a concurrent object's operations can be given by pre- and post-conditions. This paper defines linearizability, compares it to other correctness conditions, presents and demonstrates a method for proving the correctness of implementations, and shows how to reason about concurrent objects, given they are linearizable.},
+  journal = {ACM Trans. Program. Lang. Syst.},
+  month = {jul},
+  pages = {463–492},
+  numpages = {30}
+}
+
+
+@inproceedings{PF87,
+  author    = {Paul Feldman},
+  year      = {Oct 1987},
+  title     = {A practical scheme for non-interactive verifiable secret sharing},
+  booktitle = {28th Annual Symposium on Foundations of Computer Science (sfcs 1987)},
+  publisher = {IEEE Computer Society},
+  pages     = {427-438},
+  abstract  = {This paper presents an extremely efficient, non-interactive protocol for verifiable secret sharing. Verifiable secret sharing (VSS) is a way of bequeathing information to a set of processors such that a quorum of processors is needed to access the information. VSS is a fundamental tool of cryptography and distributed computing. Seemingly difficult problems such as secret bidding, fair voting, leader election, and flipping a fair coin have simple one-round reductions to VSS. There is a constant-round reduction from Byzantine Agreement to non-interactive VSS. Non-interactive VSS provides asynchronous networks with a constant-round simulation of simultaneous broadcast networks whenever even a bare majority of processors are good. VSS is constantly repeated in the simulation of fault-free protocols by faulty systems. As verifiable secret sharing is a bottleneck for so many results, it is essential to find efficient solutions.},
+  isbn      = {0272-5428},
+  url       = {https://ieeexplore.ieee.org/document/4568297},
+  doi       = {10.1109/SFCS.1987.4},
+  address   = {NW Washington, DC, USA}
+}
+
+
+
+}
+
+
+@article{PartialSync,
+author = {Dwork, Cynthia and Lynch, Nancy and Stockmeyer, Larry},
+title = {Consensus in the presence of partial synchrony},
+year = {1988},
+issue_date = {April 1988},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {35},
+number = {2},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/42282.42283},
+doi = {10.1145/42282.42283},
+abstract = {The concept of partial synchrony in a distributed system is introduced. Partial synchrony lies between the cases of a synchronous system and an asynchronous system. In a synchronous system, there is a known fixed upper bound Δ on the time required for a message to be sent from one processor to another and a known fixed upper bound Φ on the relative speeds of different processors. In an asynchronous system no fixed upper bounds Δ and Φ exist. In one version of partial synchrony, fixed bounds Δ and Φ exist, but they are not known a priori. The problem is to design protocols that work correctly in the partially synchronous system regardless of the actual values of the bounds Δ and Φ. In another version of partial synchrony, the bounds are known, but are only guaranteed to hold starting at some unknown time T, and protocols must be designed to work correctly regardless of when time T occurs. Fault-tolerant consensus protocols are given for various cases of partial synchrony and various fault models. Lower bounds that show in most cases that our protocols are optimal with respect to the number of faults tolerated are also given. Our consensus protocols for partially synchronous processors use new protocols for fault-tolerant “distributed clocks” that allow partially synchronous processors to reach some approximately common notion of time.},
+journal = {J. ACM},
+month = apr,
+pages = {288–323},
+numpages = {36}
+}
+
+
+
+
+@misc{FIPS186-4,
+  author    = {Elaine Barker},
+  title     = {Digital Signature Standard (DSS)},
+  year      = {2013},
+  month     = {Jul},
+  publisher = {Federal Inf. Process. Stds. (NIST FIPS), National Institute of Standards and Technology, Gaithersburg, MD},
+  doi       = {https://doi.org/10.6028/NIST.FIPS.186-4},
+  language  = {en}
+}
+
+@article{StateMachineApproach,
+author = {Schneider, Fred B.},
+title = {Implementing fault-tolerant services using the state machine approach: a tutorial},
+year = {1990},
+issue_date = {Dec. 1990},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {22},
+number = {4},
+issn = {0360-0300},
+url = {https://doi.org/10.1145/98163.98167},
+doi = {10.1145/98163.98167},
+abstract = {The state machine approach is a general method for implementing fault-tolerant services in distributed systems. This paper reviews the approach and describes protocols for two different failure models—Byzantine and fail stop. Systems reconfiguration techniques for removing faulty components and integrating repaired components are also discussed.},
+journal = {ACM Comput. Surv.},
+month = dec,
+pages = {299–319},
+numpages = {21}
+}
+
+
+
+
+
+@inproceedings{PBFT,
+author = {Castro, Miguel and Liskov, Barbara},
+title = {Practical Byzantine fault tolerance},
+year = {1999},
+isbn = {1880446391},
+publisher = {USENIX Association},
+address = {USA},
+booktitle = {Proceedings of the Third Symposium on Operating Systems Design and Implementation},
+pages = {173–186},
+numpages = {14},
+location = {New Orleans, Louisiana, USA},
+series = {OSDI '99}
+}
+
+@article{ByzantineGenerals,
+author = {Lamport, Leslie and Shostak, Robert and Pease, Marshall},
+title = {The Byzantine Generals Problem},
+year = {1982},
+issue_date = {July 1982},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {4},
+number = {3},
+issn = {0164-0925},
+url = {https://doi.org/10.1145/357172.357176},
+doi = {10.1145/357172.357176},
+journal = {ACM Trans. Program. Lang. Syst.},
+month = jul,
+pages = {382–401},
+numpages = {20}
+}
+
+
+@article{FLP,
+author = {Fischer, Michael J. and Lynch, Nancy A. and Paterson, Michael S.},
+title = {Impossibility of distributed consensus with one faulty process},
+year = {1985},
+issue_date = {April 1985},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {32},
+number = {2},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/3149.214121},
+doi = {10.1145/3149.214121},
+abstract = {The consensus problem involves an asynchronous system of processes, some of which may be unreliable. The problem is for the reliable processes to agree on a binary value. In this paper, it is shown that every protocol for this problem has the possibility of nontermination, even with only one faulty process. By way of contrast, solutions are known for the synchronous case, the “Byzantine Generals” problem.},
+journal = {J. ACM},
+month = apr,
+pages = {374–382},
+numpages = {9}
+}
+
+
+@inproceedings{Consensus,
+author = {Lampson, Butler W.},
+title = {How to Build a Highly Available System Using Consensus},
+year = {1996},
+isbn = {3540617698},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+booktitle = {Proceedings of the 10th International Workshop on Distributed Algorithms},
+pages = {1–17},
+numpages = {17},
+series = {WDAG '96}
+}
+
+
+@inproceedings{DangersOfReplication,
+author = {Gray, Jim and Helland, Pat and O'Neil, Patrick and Shasha, Dennis},
+title = {The dangers of replication and a solution},
+year = {1996},
+isbn = {0897917944},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/233269.233330},
+doi = {10.1145/233269.233330},
+abstract = {Update anywhere-anytime-anyway transactional replication has unstable behavior as the workload scales up: a ten-fold increase in nodes and traffic gives a thousand fold increase in deadlocks or reconciliations. Master copy replication (primary copy) schemes reduce this problem. A simple analytic model demonstrates these results. A new two-tier replication algorithm is proposed that allows mobile (disconnected) applications to propose tentative update transactions that are later applied to a master copy. Commutative update transactions avoid the instability of other replication schemes.},
+booktitle = {Proceedings of the 1996 ACM SIGMOD International Conference on Management of Data},
+pages = {173–182},
+numpages = {10},
+location = {Montreal, Quebec, Canada},
+series = {SIGMOD '96}
+}
+
+
+
+@article{PresenceOfFaults,
+author = {Pease, M. and Shostak, R. and Lamport, L.},
+title = {Reaching Agreement in the Presence of Faults},
+year = {1980},
+issue_date = {April 1980},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {27},
+number = {2},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/322186.322188},
+doi = {10.1145/322186.322188},
+abstract = {The problem addressed here concerns a set of isolated processors, some unknown subset of which may be faulty, that communicate only by means of two-party messages. Each nonfaulty processor has a private value of information that must be communicated to each other nonfaulty processor. Nonfaulty processors always communicate honestly, whereas faulty processors may lie. The problem is to devise an algorithm in which processors communicate their own values and relay values received from others that allows each nonfaulty processor to infer a value for each other processor. The value inferred for a nonfaulty processor must be that processor's private value, and the value inferred for a faulty one must be consistent with the corresponding value inferred by each other nonfaulty processor.It is shown that the problem is solvable for, and only for, n ≥ 3m + 1, where m is the number of faulty processors and n is the total number. It is also shown that if faulty processors can refuse to pass on information but cannot falsely relay information, the problem is solvable for arbitrary n ≥ m ≥ 0. This weaker assumption can be approximated in practice using cryptographic methods.},
+journal = {J. ACM},
+month = apr,
+pages = {228–234},
+numpages = {7}
+}
+
+
+
+
+
+@INPROCEEDINGS{COBRA,
+  author={Vassantlal, Robin and Alchieri, Eduardo and Ferreira, Bernardo and Bessani, Alysson},
+  booktitle={2022 IEEE Symposium on Security and Privacy (SP)}, 
+  title={COBRA: Dynamic Proactive Secret Sharing for Confidential BFT Services}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1335-1353},
+  keywords={Privacy;Fault tolerance;Protocols;Fault tolerant systems;Complexity theory;Blockchains;Secret Sharing;BFT;Confidentiality},
+  doi={10.1109/SP46214.2022.9833658}}
+
+@inproceedings{VSSR,
+author = {Basu, Soumya and Tomescu, Alin and Abraham, Ittai and Malkhi, Dahlia and Reiter, Michael K. and Sirer, Emin G\"{u}n},
+title = {Efficient Verifiable Secret Sharing with Share Recovery in BFT Protocols},
+year = {2019},
+isbn = {9781450367479},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3319535.3354207},
+doi = {10.1145/3319535.3354207},
+abstract = {Byzantine fault tolerant state machine replication (SMR) provides powerful integrity guarantees, but fails to provide any privacy guarantee whatsoever. A natural way to add such privacy guarantees is to secret-share state instead of fully replicating it. Such a com- bination would enable simple solutions to difficult problems, such as a fair exchange or a distributed certification authority. However, incorporating secret shared state into traditional Byzantine fault tolerant (BFT) SMR protocols presents unique challenges. BFT protocols often use a network model that has some degree of asynchrony, making verifiable secret sharing (VSS) unsuitable. However, full asynchronous VSS (AVSS) is unnecessary as well since the BFT algorithm provides a broadcast channel. We first present the VSS with share recovery problem, which is the subproblem of AVSS required to incorporate secret shared state into a BFT engine. Then, we provide the first VSS with share recovery solution, KZG-VSSR, in which a failure-free sharing incurs only a constant number of cryptographic operations per replica. Finally, we show how to efficiently integrate any instantiation of VSSR into a BFT replication protocol while incurring only constant overhead. Instantiating VSSR with prior AVSS protocols would require a quadratic communication cost for a single shared value and incur a linear overhead when incorporated into BFT replication. We demonstrate our end-to-end solution via a a private key-value store built using BFT replication and two instantiations of VSSR, KZG-VSSR and Ped-VSSR, and present its evaluation.},
+booktitle = {Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security},
+pages = {2387–2402},
+numpages = {16},
+keywords = {byzantine fault tolerance, privacy, secret sharing},
+location = {London, United Kingdom},
+series = {CCS '19}
+}
+
+@inproceedings{HotStuff,
+author = {Yin, Maofan and Malkhi, Dahlia and Reiter, Michael K. and Gueta, Guy Golan and Abraham, Ittai},
+title = {HotStuff: BFT Consensus with Linearity and Responsiveness},
+year = {2019},
+isbn = {9781450362177},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3293611.3331591},
+doi = {10.1145/3293611.3331591},
+abstract = {We present HotStuff, a leader-based Byzantine fault-tolerant replication protocol for the partially synchronous model. Once network communication becomes synchronous, HotStuff enables a correct leader to drive the protocol to consensus at the pace of actual (vs. maximum) network delay--a property called responsiveness---and with communication complexity that is linear in the number of replicas. To our knowledge, HotStuff is the first partially synchronous BFT replication protocol exhibiting these combined properties. Its simplicity enables it to be further pipelined and simplified into a practical, concise protocol for building large-scale replication services.},
+booktitle = {Proceedings of the 2019 ACM Symposium on Principles of Distributed Computing},
+pages = {347–356},
+numpages = {10},
+keywords = {blockchain, byzantine fault tolerance, consensus, responsiveness, scalability},
+location = {Toronto ON, Canada},
+series = {PODC '19}
+}
+
+@InProceedings{ProactiveSecretSharing,
+author="Herzberg, Amir
+and Jarecki, Stanis{\l}aw
+and Krawczyk, Hugo
+and Yung, Moti",
+editor="Coppersmith, Don",
+title="Proactive Secret Sharing Or: How to Cope With Perpetual Leakage",
+booktitle="Advances in Cryptology --- CRYPT0' 95",
+year="1995",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="339--352",
+abstract="Secret sharing schemes protect secrets by distributing them over different locations (share holders). In particular, in k out of n threshold schemes, security is assured if throughout the entire life-time of the secret the adversary is restricted to compromise less than k of the n locations. For long-lived and sensitive secrets this protection may be insufficient.",
+isbn="978-3-540-44750-4"
+}
+
+@inproceedings{ProactiveCryptosystems,
+author = {Cachin, Christian and Kursawe, Klaus and Lysyanskaya, Anna and Strobl, Reto},
+title = {Asynchronous verifiable secret sharing and proactive cryptosystems},
+year = {2002},
+isbn = {1581136129},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/586110.586124},
+doi = {10.1145/586110.586124},
+abstract = {Verifiable secret sharing is an important primitive in distributed cryptography. With the growing interest in the deployment of threshold cryptosystems in practice, the traditional assumption of a synchronous network has to be reconsidered and generalized to an asynchronous model. This paper proposes the first practical verifiable secret sharing protocol for asynchronous networks. The protocol creates a discrete logarithm-based sharing and uses only a quadratic number of messages in the number of participating servers. It yields the first asynchronous Byzantine agreement protocol in the standard model whose efficiency makes it suitable for use in practice. Proactive cryptosystems are another important application of verifiable secret sharing. The second part of this paper introduces proactive cryptosystems in asynchronous networks and presents an efficient protocol for refreshing the shares of a secret key for discrete logarithm-based sharings.},
+booktitle = {Proceedings of the 9th ACM Conference on Computer and Communications Security},
+pages = {88–97},
+numpages = {10},
+keywords = {secret sharing, proactive, model, asynchronous},
+location = {Washington, DC, USA},
+series = {CCS '02}
+}
+
+@InProceedings{DistributedPseudorandomFunction,
+author="Naor, Moni
+and Pinkas, Benny
+and Reingold, Omer",
+editor="Stern, Jacques",
+title="Distributed Pseudo-random Functions and KDCs",
+booktitle="Advances in Cryptology --- EUROCRYPT '99",
+year="1999",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="327--346",
+abstract="This work describes schemes for distributing between n servers the evaluation of a function f which is an approximation to a random function, such that only authorized subsets of servers are able to compute the function. A user who wants to compute f(x) should send x to the members of an authorized subset and receive information which enables him to compute f(x). We require that such a scheme is consistent, i.e. that given an input x all authorized subsets compute the same value f(x).",
+isbn="978-3-540-48910-8"
+}
+
+
+@article{APSS,
+author = {Zhou, Lidong and Schneider, Fred B. and Van Renesse, Robbert},
+title = {APSS: proactive secret sharing in asynchronous systems},
+year = {2005},
+issue_date = {August 2005},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {8},
+number = {3},
+issn = {1094-9224},
+url = {https://doi.org/10.1145/1085126.1085127},
+doi = {10.1145/1085126.1085127},
+abstract = {APSS, a proactive secret sharing (PSS) protocol for asynchronous systems, is explained and proved correct. The protocol enables a set of secret shares to be periodically refreshed with a new, independent set, thereby thwarting mobile-adversary attacks. Protocols for asynchronous systems are inherently less vulnerable to denial-of-service attacks, which slow processor execution or delay message delivery. So APSS tolerates certain attacks that PSS protocols for synchronous systems cannot.},
+journal = {ACM Trans. Inf. Syst. Secur.},
+month = aug,
+pages = {259–286},
+numpages = {28},
+keywords = {Threshold cryptography, asynchronous system, denial of service, proactive secret sharing}
+}
+
+
+
+@article{MPSS,
+author = {Schultz, David and Liskov, Barbara and Liskov, Moses},
+title = {MPSS: Mobile Proactive Secret Sharing},
+year = {2010},
+issue_date = {December 2010},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {13},
+number = {4},
+issn = {1094-9224},
+url = {https://doi.org/10.1145/1880022.1880028},
+doi = {10.1145/1880022.1880028},
+abstract = {This article describes MPSS, a new way to do proactive secret sharing. MPSS provides mobility: The group of nodes holding the shares of the secret can change at each resharing, which is essential in a long-lived system. MPSS additionally allows the number of tolerated faulty shareholders to change when the secret is moved so that the system can tolerate more (or fewer) corruptions; this allows reconfiguration on-the-fly to accommodate changes in the environment.MPSS includes an efficient protocol that is intended to be used in practice. The protocol is optimized for the common case of no or few failures, but degradation when there are more failures is modest. MPSS contains a step in which nodes accuse proposals made by other nodes; we show a novel way to handle these accusations when their verity cannot be known. We also present a way to produce accusations that can be verified without releasing keys of other nodes; verifiable accusations improve the performance of MPSS, and are a useful primitive independent of MPSS.},
+journal = {ACM Trans. Inf. Syst. Secur.},
+month = dec,
+articleno = {34},
+numpages = {32}
+}
+
+@inproceedings{CHURP,
+author = {Maram, Sai Krishna Deepak and Zhang, Fan and Wang, Lun and Low, Andrew and Zhang, Yupeng and Juels, Ari and Song, Dawn},
+title = {CHURP: Dynamic-Committee Proactive Secret Sharing},
+year = {2019},
+isbn = {9781450367479},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3319535.3363203},
+doi = {10.1145/3319535.3363203},
+abstract = {We introduce CHURP (CHUrn-Robust Proactive secret sharing). CHURP enables secure secret-sharing in dynamic settings, where the committee of nodes storing a secret changes over time. Designed for blockchains, CHURP has lower communication complexity than previous schemes: $O(n)$ on-chain and $O(n^2)$ off-chain in the optimistic case of no node failures. CHURP includes several technical innovations: An efficient new proactivization scheme of independent interest, a technique (using asymmetric bivariate polynomials) for efficiently changing secret-sharing thresholds, and a hedge against setup failures in an efficient polynomial commitment scheme. We also introduce a general new technique for inexpensive off-chain communication across the peer-to-peer networks of permissionless blockchains. We formally prove the security of CHURP, report on an implementation, and present performance measurements.},
+booktitle = {Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security},
+pages = {2369–2386},
+numpages = {18},
+keywords = {secret sharing, dynamic committee, decentralization, blockchain},
+location = {London, United Kingdom},
+series = {CCS '19}
+}
+
+
+@InProceedings{AdaptiveSecurity,
+author="Canetti, Ran
+and Damgaard, Ivan
+and Dziembowski, Stefan
+and Ishai, Yuval
+and Malkin, Tal",
+editor="Pfitzmann, Birgit",
+title="On Adaptive vs. Non-adaptive Security of Multiparty Protocols",
+booktitle="Advances in Cryptology --- EUROCRYPT 2001",
+year="2001",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="262--279",
+abstract="Security analysis of multiparty cryptographic protocols distinguishes between two types of adversarialsettings: In the non-adaptive setting, the set of corrupted parties is chosen in advance, before the interaction begins. In the adaptive setting, the adversary chooses who to corrupt during the course of the computation. We study the relations between adaptive security (i.e., security in the adaptive setting) and non-adaptive security, according to two definitions and in several models of computation. While affirming some prevailing beliefs, we also obtain some unexpected results. Some highlights of our results are:- According to the definition of Dodis-Micali-Rogaway (which is set in the information-theoretic model), adaptive and non-adaptive security are equivalent. This holds for both honest-but-curious and Byzantine adversaries, and for any number of parties.- According to the definition of Canetti, for honest-but-curious adversaries, adaptive security is equivalent to non-adaptive security when the number of parties is logarithmic, and is strictly stronger than non-adaptive security when the number of parties is super-logarithmic. For Byzantine adversaries, adaptive security is strictly stronger than non-adaptive security, for any number of parties.",
+isbn="978-3-540-44987-4"
+}
+
+@inproceedings{CC-AdaptiveSecurity,
+author = {Hirt, Martin and Liu-Zhang, Chen-Da and Maurer, Ueli},
+title = {Adaptive Security of Multi-party Protocols, Revisited},
+year = {2021},
+isbn = {978-3-030-90458-6},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+url = {https://doi.org/10.1007/978-3-030-90459-3_23},
+doi = {10.1007/978-3-030-90459-3_23},
+abstract = {The goal of secure multi-party computation (MPC) is to allow a set of parties to perform an arbitrary computation task, where the security guarantees depend on the set of parties that are corrupted. The more parties are corrupted, the less is guaranteed, and typically the guarantees are completely lost when the number of corrupted parties exceeds a certain corruption bound.Early and also many recent protocols are only statically secure in the sense that they provide no security guarantees if the adversary is allowed to choose adaptively which parties to corrupt. Security against an adversary with such a strong capability is often called adaptive security and a significant body of literature is devoted to achieving adaptive security, which is known as a difficult problem. In particular, a main technical obstacle in this context is the so-called “commitment problem”, where the simulator is unable to consistently explain the internal state of a party with respect to its pre-corruption outputs. As a result, protocols typically resort to the use of cryptographic primitives like non-committing encryption, incurring a substantial efficiency loss.This paper provides a new, clean-slate treatment of adaptive security in MPC, exploiting the specification concept of constructive cryptography (CC). A new natural security notion, called CC-adaptive security, is proposed, which is technically weaker than standard adaptive security but nevertheless captures security against a fully adaptive adversary. Known protocol examples separating between adaptive and static security are also insecure in our notion. Moreover, our notion avoids the commitment problem and thereby the need to use non-committing or equivocal tools. We exemplify this by showing that the protocols by Cramer, Damgard and Nielsen (EUROCRYPT’01) for the honest majority setting, and (the variant without non-committing encryption) by Canetti, Lindell, Ostrovsky and Sahai (STOC’02) for the dishonest majority setting, achieve CC-adaptive security. The latter example is of special interest since all UC-adaptive protocols in the dishonest majority setting require some form of non-committing or equivocal encryption.},
+booktitle = {Theory of Cryptography: 19th International Conference, TCC 2021, Raleigh, NC, USA, November 8–11, 2021, Proceedings, Part I},
+pages = {686–716},
+numpages = {31},
+location = {Raleigh, NC, USA}
+}
+
+
+@article{MPC,
+author = {Lindell, Yehuda},
+title = {Secure multiparty computation},
+year = {2020},
+issue_date = {January 2021},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {64},
+number = {1},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/3387108},
+doi = {10.1145/3387108},
+abstract = {MPC has moved from theoretical study to real-world usage. How is it doing?},
+journal = {Commun. ACM},
+month = dec,
+pages = {86–96},
+numpages = {11}
+}
+
+
+@INPROCEEDINGS{Ekiden,
+  author={Cheng, Raymond and Zhang, Fan and Kos, Jernej and He, Warren and Hynes, Nicholas and Johnson, Noah and Juels, Ari and Miller, Andrew and Song, Dawn},
+  booktitle={2019 IEEE European Symposium on Security and Privacy (EuroS\&P)}, 
+  title={Ekiden: A Platform for Confidentiality-Preserving, Trustworthy, and Performant Smart Contracts}, 
+  year={2019},
+  volume={},
+  number={},
+  pages={185-200},
+  keywords={Blockchain;Smart contracts;Hardware;Cryptography;smart contracts;blockchain;trusted hardware;confidentiality preserving smart contracts},
+  doi={10.1109/EuroSP.2019.00023}}
+
+
+  @INPROCEEDINGS{DecentralizingPrivacy,
+  author={Zyskind, Guy and Nathan, Oz and Pentland, Alex 'Sandy'},
+  booktitle={2015 IEEE Security and Privacy Workshops}, 
+  title={Decentralizing Privacy: Using Blockchain to Protect Personal Data}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={180-184},
+  keywords={Protocols;Privacy;Data privacy;Online banking;Encryption;Compounds;blockchain;privacy;bitcoin;personal data},
+  doi={10.1109/SPW.2015.27}}
+
+
+
+@INPROCEEDINGS{IntrusionTolerance,
+  author={Deswarte, Y. and Blain, L. and Fabre, J.-C.},
+  booktitle={Proceedings. 1991 IEEE Computer Society Symposium on Research in Security and Privacy}, 
+  title={Intrusion tolerance in distributed computing systems}, 
+  year={1991},
+  volume={},
+  number={},
+  pages={110-121},
+  keywords={Distributed computing;File servers;Authentication;Authorization;Workstations;Computer networks;Access control;Computer security;Computer crime;Protocols},
+  doi={10.1109/RISP.1991.130780}}
+
+
+
+@InProceedings{HowToMakeReplicatedDataSecure,
+author="Herlihy, Maurice P.
+and Tygar, J. D.",
+editor="Pomerance, Carl",
+title="How to Make Replicated Data Secure",
+booktitle="Advances in Cryptology --- CRYPTO '87",
+year="1988",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="379--391",
+abstract="Many distributed systems manage some form of long-lived data, such as files or data bases. The performance and fault-tolerance of such systems may be enhanced if the repositories for the data are physically distributed. Nevertheless, distribution makes security more difficult, since it may be difficult to ensure that each repository is physically secure, particularly if the number of repositories is large. This paper proposes new techniques for ensuring the security of long-lived, physically distributed data. These techniques adapt replication protocols for fault-tolerance to the more demanding requirements of security. For a given threshold value, one set of protocols ensures that an adversary cannot ascertain the state of a data object by observing the contents of fewer than a threshold of repositories. These protocols are cheap; the message traffic needed to tolerate a given number of Compromised repositories is only slightly more than the message traffic needed to tolerate the same number of failures. A second set of protocols ensures that an object's state cannot be altered by an adversary who can modify the contents of fewer than a threshold of repositories. These protocols are more expensive; to tolerate t-1 compromised repositories, clients executing certain operations must communicate with t-1 additional sites.",
+isbn="978-3-540-48184-3"
+}
+
+
+@InProceedings{SecretSharingMadeShort,
+author="Krawczyk, Hugo",
+editor="Stinson, Douglas R.",
+title="Secret Sharing Made Short",
+booktitle="Advances in Cryptology --- CRYPTO' 93",
+year="1994",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="136--146",
+abstract="A well-known fact in the theory of secret sharing schemes is that shares must be of length at least as the secret itself. However, the proof of this lower bound uses the notion of information theoretic secrecy. A natural (and very practical) question is whether one can do better for secret sharing if the notion of secrecy is computational, namely, against resource bounded adversaries. In this note we observe that, indeed, one can do much better in the computational model (which is the one used in most applications).",
+isbn="978-3-540-48329-8"
+}
+
+@article{HowToShareASecretWithCheaters,
+author = {Tompa, M. and Woll, H.},
+title = {How to share a secret with cheaters},
+year = {1988},
+issue_date = {Aug. 1988},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+volume = {1},
+number = {2},
+issn = {0933-2790},
+journal = {J. Cryptol.},
+month = aug,
+pages = {133–138},
+numpages = {6}
+}
+
+
+@INPROCEEDINGS{FromByzantineReplicationToBlockchain,
+  author={Bessani, Alysson and Alchieri, Eduardo and Sousa, João and Oliveira, André and Pedone, Fernando},
+  booktitle={2020 50th Annual IEEE/IFIP International Conference on Dependable Systems and Networks (DSN)}, 
+  title={From Byzantine Replication to Blockchain: Consensus is Only the Beginning}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={424-436},
+  keywords={Protocols;Peer-to-peer computing;Libraries;Throughput;Computer crashes;Cryptography},
+  doi={10.1109/DSN48063.2020.00057}}
+
+
+@article{DepSpace,
+author = {Bessani, Alysson Neves and Alchieri, Eduardo Pelison and Correia, Miguel and Fraga, Joni Silva},
+title = {DepSpace: a byzantine fault-tolerant coordination service},
+year = {2008},
+issue_date = {May 2008},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {42},
+number = {4},
+issn = {0163-5980},
+url = {https://doi.org/10.1145/1357010.1352610},
+doi = {10.1145/1357010.1352610},
+abstract = {The tuple space coordination model is one of the most interesting coordination models for open distributed systems due to its space and time decoupling and its synchronization power. Several works have tried to improve the dependability of tuple spaces through the use of replication for fault tolerance and access control for security. However, many practical applications in the Internet require both fault tolerance and security. This paper describes the design and implementation of DepSpace, a Byzantine fault-tolerant coordination service that provides a tuple space abstraction. The service offered by DepSpace is secure, reliable and available as long as less than a third of service replicas are faulty. Moreover, the content-addressable confidentiality scheme developed for DepSpace bridges the gap between Byzantine fault-tolerant replication and confidentiality of replicated data and can be used in other systems that store critical data.},
+journal = {SIGOPS Oper. Syst. Rev.},
+month = apr,
+pages = {163–176},
+numpages = {14},
+keywords = {tuple space, confidentiality, byzantine fault tolerance}
+}
+
+
+@article{Calypso,
+author = {Kokoris-Kogias, Eleftherios and Alp, Enis Ceyhun and Gasser, Linus and Jovanovic, Philipp and Syta, Ewa and Ford, Bryan},
+title = {CALYPSO: private data management for decentralized ledgers},
+year = {2020},
+issue_date = {December 2020},
+publisher = {VLDB Endowment},
+volume = {14},
+number = {4},
+issn = {2150-8097},
+url = {https://doi.org/10.14778/3436905.3436917},
+doi = {10.14778/3436905.3436917},
+abstract = {Distributed ledgers provide high availability and integrity, making them a key enabler for practical and secure computation of distributed workloads among mutually distrustful parties. Many practical applications also require strong confidentiality, however. This work enhances permissioned and permissionless blockchains with the ability to manage confidential data without forfeiting availability or decentralization. The proposed Calypso architecture addresses two orthogonal challenges confronting modern distributed ledgers: (a) enabling the auditable management of secrets and (b) protecting distributed computations against arbitrage attacks when their results depend on the ordering and secrecy of inputs.Calypso introduces on-chain secrets, a novel abstraction that enforces atomic deposition of an auditable trace whenever users access confidential data. Calypso provides user-controlled consent management that ensures revocation atomicity and accountable anonymity. To enable permissionless deployment, we introduce an incentive scheme and provide users with the option to select their preferred trustees. We evaluated our Calypso prototype with a confidential document-sharing application and a decentralized lottery. Our benchmarks show that transaction-processing latency increases linearly in terms of security (number of trustees) and is in the range of 0.2 to 8 seconds for 16 to 128 trustees.},
+journal = {Proc. VLDB Endow.},
+month = dec,
+pages = {586–599},
+numpages = {14}
+}
+
+@inproceedings{MobileVirus,
+author = {Ostrovsky, Rafail and Yung, Moti},
+title = {How to withstand mobile virus attacks (extended abstract)},
+year = {1991},
+isbn = {0897914392},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/112600.112605},
+doi = {10.1145/112600.112605},
+booktitle = {Proceedings of the Tenth Annual ACM Symposium on Principles of Distributed Computing},
+pages = {51–59},
+numpages = {9},
+location = {Montreal, Quebec, Canada},
+series = {PODC '91}
+}
+
+@ARTICLE{ProactiveReactiveRecovery,
+  author={Sousa, Paulo and Bessani, Alysson Neves and Correia, Miguel and Neves, Nuno Ferreira and Verissimo, Paulo},
+  journal={IEEE Transactions on Parallel and Distributed Systems}, 
+  title={Highly Available Intrusion-Tolerant Services with Proactive-Reactive Recovery}, 
+  year={2010},
+  volume={21},
+  number={4},
+  pages={452-465},
+  keywords={Fault detection;Production systems;Resilience;Computer Society;Upper bound;Protection;Power system security;Mission critical systems;SCADA systems;Energy management;Intrusion tolerance;proactive recovery;reactive recovery;firewall.},
+  doi={10.1109/TPDS.2009.83}}
+
+
+@InProceedings{PolynomialCommitment,
+author="Kate, Aniket
+and Zaverucha, Gregory M.
+and Goldberg, Ian",
+editor="Abe, Masayuki",
+title="Constant-Size Commitments to Polynomials and Their Applications",
+booktitle="Advances in Cryptology - ASIACRYPT 2010",
+year="2010",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="177--194",
+abstract="We introduce and formally define polynomial commitment schemes, and provide two efficient constructions. A polynomial commitment scheme allows a committer to commit to a polynomial with a short string that can be used by a verifier to confirm claimed evaluations of the committed polynomial. Although the homomorphic commitment schemes in the literature can be used to achieve this goal, the sizes of their commitments are linear in the degree of the committed polynomial. On the other hand, polynomial commitments in our schemes are of constant size (single elements). The overhead of opening a commitment is also constant; even opening multiple evaluations requires only a constant amount of communication overhead. Therefore, our schemes are useful tools to reduce the communication cost in cryptographic protocols. On that front, we apply our polynomial commitment schemes to four problems in cryptography: verifiable secret sharing, zero-knowledge sets, credentials and content extraction signatures.",
+isbn="978-3-642-17373-8"
+}
+
+
+@INPROCEEDINGS{TowardsScalableThresholdCryptosystems,
+  author={Tomescu, Alin and Chen, Robert and Zheng, Yiming and Abraham, Ittai and Pinkas, Benny and Gueta, Guy Golan and Devadas, Srinivas},
+  booktitle={2020 IEEE Symposium on Security and Privacy (SP)}, 
+  title={Towards Scalable Threshold Cryptosystems}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={877-893},
+  keywords={Protocols;Cryptography;Complexity theory;Aggregates;Interpolation;Privacy;polynomial commitments;polynomial multi-point evaluation;distributed key generation;verifiable secret sharing;threshold signatures;BLS},
+  doi={10.1109/SP40000.2020.00059}}
+
+
+
+
+
+@INPROCEEDINGS{Belisarius,
+  author={Padilha, Ricardo and Pedone, Fernando},
+  booktitle={2011 IEEE 10th International Symposium on Network Computing and Applications}, 
+  title={Belisarius: BFT Storage with Confidentiality}, 
+  year={2011},
+  volume={},
+  number={},
+  pages={9-16},
+  keywords={Servers;Cryptography;Payloads;Protocols;Throughput;Fires;Fault tolerance;byzantine fault-tolerance;confidentiality;secret sharing;storage;cloud computing;security},
+  doi={10.1109/NCA.2011.15}}
+
+
+@inproceedings{MultiPartyFairExchange,
+author = {Franklin, Matthew K. and Reiter, Michael K.},
+title = {Fair exchange with a semi-trusted third party (extended abstract)},
+year = {1997},
+isbn = {0897919122},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/266420.266424},
+doi = {10.1145/266420.266424},
+booktitle = {Proceedings of the 4th ACM Conference on Computer and Communications Security},
+pages = {1–6},
+numpages = {6},
+location = {Zurich, Switzerland},
+series = {CCS '97}
+}
+
+
+@inproceedings{OptimisticProtocolsForFairExchange,
+author = {Asokan, N. and Schunter, Matthias and Waidner, Michael},
+title = {Optimistic protocols for fair exchange},
+year = {1997},
+isbn = {0897919122},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/266420.266426},
+doi = {10.1145/266420.266426},
+booktitle = {Proceedings of the 4th ACM Conference on Computer and Communications Security},
+pages = {7–17},
+numpages = {11},
+location = {Zurich, Switzerland},
+series = {CCS '97}
+}
+
+@INPROCEEDINGS {Blakley,
+author = { Blakley, G. R. },
+booktitle = { Managing Requirements Knowledge, International Workshop on },
+title = {{ Safeguarding cryptographic keys }},
+year = {1979},
+volume = {},
+ISSN = {},
+pages = {313},
+abstract = { },
+keywords = {},
+doi = {10.1109/AFIPS.1979.98},
+url = {https://doi.ieeecomputersociety.org/10.1109/AFIPS.1979.98},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+month =Jun}
+
+
+
+
+@misc{rfc768,
+    series =    {Request for Comments},
+    number =    768,
+    howpublished =  {RFC 768},
+    publisher = {RFC Editor},
+    doi =       {10.17487/RFC0768},
+    url =       {https://www.rfc-editor.org/info/rfc768},
+    author =    {},
+    title =     {{User Datagram Protocol}},
+    pagetotal = 3,
+    year =      1980,
+    month =     aug,
+    abstract =  {},
+}
+
+
+@misc{PythonAsyncio,
+  title = {asyncio --- Asynchronous I/O},
+  author = {{Python Software Foundation}},
+  howpublished = {\url{https://docs.python.org/3.13/library/asyncio.html}},
+  year = {2024},
+  note = {Python Documentation}
+}
+
+@misc{Python,
+  title = {Python Programming Language},
+  author = {{Python Software Foundation}},
+  howpublished = {\url{https://www.python.org/}},
+  year = {2024},
+  note = {Accessed: March 2024}
+}
+
+@misc{Bitcoin,
+  author       = {Satoshi Nakamoto},
+  title        = {Bitcoin: A Peer-to-Peer Electronic Cash System},
+  howpublished = {\url{https://bitcoin.org/bitcoin.pdf}},
+  month        = {},
+  year         = {2008},
+  note         = {{(Accessed on 02/06/2023)}}
+}
+
+@misc{Ethereum,
+  author = {Wood, Gavin and others},
+  title  = {ETHEREUM: A SECURE DECENTRALISED GENERALISED TRANSACTION LEDGER BERLIN VERSION beacfbd– 2022-10-24},
+  url    = {https://ethereum.github.io/yellowpaper/paper.pdf},
+  year   = {2014}
+}
+
+@inproceedings{ObliviousPaxos,
+author = {Kurnia, Fadhil I. and Venkataramani, Arun},
+title = {Oblivious Paxos: Privacy-Preserving Consensus Over Secret-Shares},
+year = {2023},
+isbn = {9798400703874},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3620678.3624647},
+doi = {10.1145/3620678.3624647},
+abstract = {State-of-the-art consensus protocols like Paxos reveal the values being agreed upon to all nodes, but some deployment scenarios involving a subset of nodes outsourced to public cloud providers motivate hiding the value. In this work, we present the primary-backup secret-shared state machine (PBSSM) architecture and an underlying consensus protocol Oblivious Paxos (OPaxos) that enable strong consistency, high availability, privacy, and fast common-case performance. OPaxos enables privacy-preserving consensus by allowing acceptors to safely agree on a secret-shared value without utrusted acceptors knowing the value. We also present Fast Oblivious Paxos (Fast-OPaxos), which enables consensus over secret-shares in three one-way delays under low concurrency settings. Our prototype-driven microbenchmarks and smarthome case study show that OPaxos induces a negligible latency overhead of at most 0.1 ms compared to Paxos while maintaining more than 85\% of Paxos' capacity for small requests, and can provide lower latency and higher capacity compared to Paxos for large request sizes.},
+booktitle = {Proceedings of the 2023 ACM Symposium on Cloud Computing},
+pages = {65–80},
+numpages = {16},
+keywords = {Distributed Consensus, Privacy, Secret-Sharing},
+location = {Santa Cruz, CA, USA},
+series = {SoCC '23}
+}
+
+@article{IoTResilienceSurvey,
+author = {Berger, Christian and Eichhammer, Philipp and Reiser, Hans P. and Domaschka, J\"{o}rg and Hauck, Franz J. and Habiger, Gerhard},
+title = {A Survey on Resilience in the IoT: Taxonomy, Classification, and Discussion of Resilience Mechanisms},
+year = {2021},
+issue_date = {September 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {54},
+number = {7},
+issn = {0360-0300},
+url = {https://doi.org/10.1145/3462513},
+doi = {10.1145/3462513},
+abstract = {Internet-of-Things (IoT) ecosystems tend to grow both in scale and complexity, as they consist of a variety of heterogeneous devices that span over multiple architectural IoT layers (e.g., cloud, edge, sensors). Further, IoT systems increasingly demand the resilient operability of services, as they become part of critical infrastructures. This leads to a broad variety of research works that aim to increase the resilience of these systems. In this article, we create a systematization of knowledge about existing scientific efforts of making IoT systems resilient. In particular, we first discuss the taxonomy and classification of resilience and resilience mechanisms and subsequently survey state-of-the-art resilience mechanisms that have been proposed by research work and are applicable to IoT. As part of the survey, we also discuss questions that focus on the practical aspects of resilience, e.g., which constraints resilience mechanisms impose on developers when designing resilient systems by incorporating a specific mechanism into IoT systems.},
+journal = {ACM Comput. Surv.},
+month = sep,
+articleno = {147},
+numpages = {39},
+keywords = {Internet of Things, dependability, resilience, security}
+}
+
+@ARTICLE{PrivacyPreservingFederatedLearning,
+  author={Yan, Xinru and Miao, Yinbin and Li, Xinghua and Choo, Kim-Kwang Raymond and Meng, Xiangdong and Deng, Robert H.},
+  journal={IEEE Internet of Things Journal}, 
+  title={Privacy-Preserving Asynchronous Federated Learning Framework in Distributed IoT}, 
+  year={2023},
+  volume={10},
+  number={15},
+  pages={13281-13291},
+  keywords={Blockchains;Internet of Things;Servers;Privacy;Training;Federated learning;Differential privacy;Asynchronous training;blockchain;differential privacy (DP);federated learning (FL)},
+  doi={10.1109/JIOT.2023.3262546}}
+  
+
+@article{WirelessSensorNetworkSecurityReview,
+author = {Mohammed Faris and Mohd Nazri Mahmud and Mohd Fadzli Mohd Salleh and Alhamzah Alnoor},
+title ={Wireless sensor network security: A recent review based on state-of-the-art works},
+
+journal = {International Journal of Engineering Business Management},
+volume = {15},
+number = {},
+pages = {18479790231157220},
+year = {2023},
+doi = {10.1177/18479790231157220},
+
+URL = { 
+    
+        https://doi.org/10.1177/18479790231157220
+    
+    
+
+},
+eprint = { 
+    
+        https://doi.org/10.1177/18479790231157220
+    
+    
+
+}
+,
+    abstract = { Wireless sensor networks (WSNs) are a major part of the telecommunications sector. WSN is applied in many aspects, including surveillance battlefields, patient medical monitoring, building automation, traffic control, environmental monitoring, and building intrusion monitoring. The WSN is made up of a vast number of sensor nodes, which are interconnected through a network. However, despite the growing usage of applications that rely on WSNs, they continue to suffer from restrictions, such as security issues and limited characteristics due to low memory and calculation power. Security issues lead to a lack of communication between sensors, wasting more energy. The need for efficient solutions has increased, especially with the rise of the Internet of Things, which relies on the effectiveness of WSNs. This review focuses on security issues by reviewing and addressing diverse types of WSN assaults that happened on each layer of the WSN that were published in security issues in the previous 3 years. As a consequence, this paper gives a taxonomy of security threats for each layer and different algorithmic solutions that numerous researchers who seek to counter this attack have explored. This study also presents a framework for constructing an intrusion detection system in the WSN by emphasising the drawbacks of each approach suggested by researchers to defend against specific forms of assault. In order to diminish the impact of this attack, this summary shows which attacks the majority of researchers have dealt with as well as which ones they have not yet addressed in their academic work. }
+}
+
+
+@article{IoTRepair,
+author = {Norris, Michael and Celik, Z. Berkay and Venkatesh, Prasanna and Zhao, Shulin and McDaniel, Patrick and Sivasubramaniam, Anand and Tan, Gang},
+title = {IoTRepair: Flexible Fault Handling in Diverse IoT Deployments},
+year = {2022},
+issue_date = {August 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {3},
+number = {3},
+url = {https://doi.org/10.1145/3532194},
+doi = {10.1145/3532194},
+abstract = {IoT devices can be used to complete a wide array of physical tasks, but due to factors such as low computational resources and distributed physical deployment, they are susceptible to a wide array of faulty behaviors. Many devices deployed in homes, vehicles, industrial sites, and hospitals carry a great risk of damage to property, harm to a person, or breach of security if they behave faultily. We propose a general fault handling system named IoTRepair, which shows promising results for effectiveness with limited latency and power overhead in an IoT environment. IoTRepair dynamically organizes and customizes fault-handling techniques to address the unique problems associated with heterogeneous IoT deployments. We evaluate IoTRepair by creating a physical implementation mirroring a typical home environment to motivate the effectiveness of this system. Our evaluation showed that each of our fault-handling functions could be completed within 100 milliseconds after fault identification, which is a fraction of the time that state-of-the-art fault-identification methods take (measured in minutes). The power overhead is equally small, with the computation and device action consuming less than 30 milliwatts. This evaluation shows that IoTRepair not only can be deployed in a physical system, but offers significant benefits at a low overhead.},
+journal = {ACM Trans. Internet Things},
+month = jul,
+articleno = {22},
+numpages = {33},
+keywords = {Fault handling, embedded system}
+}
+
+@INPROCEEDINGS{WirelessSensorNetworkFaultToleranceSurvey,
+  author={Kakamanshadi, Gholamreza and Gupta, Savita and Singh, Sukhwinder},
+  booktitle={2015 International Conference on Green Computing and Internet of Things (ICGCIoT)}, 
+  title={A survey on fault tolerance techniques in Wireless Sensor Networks}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={168-173},
+  keywords={Wireless sensor networks;Fault tolerant systems;Redundancy;Protocols;Routing;Wireless Sensor Networks;Fault Tolerance;Cluster Head Failure;Node Failure;Link Failure},
+  doi={10.1109/ICGCIoT.2015.7380451}}
+
+
+@article{SmartBuildingSurvey,
+author = {Shih, Chi-Sheng and Chou, Jyun-Jhe and Reijers, Niels and Kuo, Tei-Wei},
+title = {Designing CPS/IoT applications for smart buildings and cities},
+journal = {IET Cyber-Physical Systems: Theory \& Applications},
+volume = {1},
+number = {1},
+pages = {3-12},
+keywords = {smart cities, home automation, building management systems, Internet of Things, cyber-physical systems, energy consumption, CPS-IoT design, smart buildings, smart cities, cyber-physical systems, Internet of Things, intelligent green house, intelligent transportation system, power distribution grid, smart home, energy consumption reduction},
+doi = {https://doi.org/10.1049/iet-cps.2016.0025},
+url = {https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/iet-cps.2016.0025},
+eprint = {https://ietresearch.onlinelibrary.wiley.com/doi/pdf/10.1049/iet-cps.2016.0025},
+abstract = {Internet of Things (IoT) and cyber-physical systems (CPS) technologies can be applied to many application domains. Examples include intelligent green house, intelligent transportation system, power distribution grid, smart home, smart building, and smart city. Among these application domains, some of them have been extensively studied, e.g., smart home and intelligent transportation systems. In the meantime, smart buildings and smart cities attract researchers and industries to investigate these two use scenarios. Well-designed IoT/CPS can reduce energy consumption, enhance safety in buildings and cities, or can increase the comfortability in the building. In the last few years, the research communities and industrial partners started to study and investigate these two use scenarios to develop prototype or commercial services for these two scenarios. Although many works have been conducted on these two scenarios, many challenges remain open. In this study, the authors study the development and challenges in five topics. They are middleware, computation model, fault tolerance, quality of data, and virtual run-time environment.},
+year = {2016}
+}
+
+@INPROCEEDINGS{ClockSynchronizationInWSN,
+  author={Schenato, Luca and Gamba, Giovanni},
+  booktitle={2007 46th IEEE Conference on Decision and Control}, 
+  title={A distributed consensus protocol for clock synchronization in wireless sensor network}, 
+  year={2007},
+  volume={},
+  number={},
+  pages={2289-2294},
+  keywords={Wireless application protocol;Clocks;Synchronization;Wireless sensor networks;Time division multiple access;Spread spectrum communication;Delay effects;Scheduling;Tree graphs;USA Councils},
+  doi={10.1109/CDC.2007.4434671}}
+
+
+
+@ARTICLE{BasicConceptsAndTaxonomyOfDependableAndSecureComputing,
+  author={Avizienis, A. and Laprie, J.-C. and Randell, B. and Landwehr, C.},
+  journal={IEEE Transactions on Dependable and Secure Computing}, 
+  title={Basic concepts and taxonomy of dependable and secure computing}, 
+  year={2004},
+  volume={1},
+  number={1},
+  pages={11-33},
+  keywords={Taxonomy;Availability;Fault tolerance;Safety;Maintenance;Communication system security;Uncertainty;Standardization;Books;Index Terms- Dependability;security;trust;faults;errors;failures;vulnerabilities;attacks;fault tolerance;fault removal;fault forecasting.},
+  doi={10.1109/TDSC.2004.2}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
