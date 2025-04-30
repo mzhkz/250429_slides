@@ -1,9 +1,9 @@
 TMPDIR=tmp
 OUTDIR=out
 
-MAINFILE=moz_rg.tex
+MAINFILE=moz_rg-en.tex
 
-FILENAME=moz_rg
+FILENAME=moz_rg-en
 PDFNAME=${FILENAME}.pdf
 
 TEXLIVEIMAGE=texlive/texlive:TL2023-historic
