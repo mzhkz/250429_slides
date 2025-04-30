@@ -56,7 +56,7 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]  
 
-\title{\textsc{SFC-RG General Lecture} \\ Threat Clarification and Correctness Proofs in Protocol Design}
+\title{\textsc{SFC-RG Joint Lecture} \\ Threat Clarification and Correctness Proofs in Protocol Design}
 \author{
     Graduate School of Media and Governance, Keio University\\
     \vspace{0.5em}
@@ -151,8 +151,8 @@ Adversaries control honest entities and introduce corrupted entities into the pr
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.56\textwidth]{figs/interaction-adversary.png}
-    \caption{Relationship between adversaries and entities. Adversaries can introduce corrupted entities into the protocol by intercepting messages from honest entities or directly controlling entities.\footnote{Note that entities do not become corrupted directly!}}
+    \includegraphics[width=0.5\textwidth]{figs/interaction-adversary.png}
+    \caption{Relationship between adversaries and entities. Adversaries can introduce corrupted entities into the protocol by intercepting messages from honest entities or directly controlling entities. (Note that entities do not become corrupted directly!)}
     \label{fig:interaction-adversary}
 \end{figure}
 
@@ -385,20 +385,19 @@ In other words, if we can prove that PBFT satisfies Safety and Liveness regardle
 \end{frame}
 
 \begin{frame}{PBFT Safety Proof}
-Assumption: Suppose two different values $v$ and $v'$ were committed with the same sequence number $s$.
+Assumption: Two different values $v$ and $v'$ are committed with the same sequence number $s$.
 
 \begin{lemma}
-For each value to be committed, PREPARE messages from at least $2f+1$ replicas are required. (Out of $3f+1$ replicas, at most $f$ can be corrupted)
+For each value to be committed, COMMIT messages from at least $2f+1$ replicas are required. (Out of $3f+1$ total replicas, at most $f$ can be corrupted)
 \end{lemma}
 
 \begin{itemize}
-    \item \small For value $v$ to be committed, PREPARE messages from at least $2f+1$ replicas in set $\mathcal{P}$ are required
-    \item \small Similarly, for value $v'$ to be committed, PREPARE messages from at least $2f+1$ replicas in set $\mathcal{Q}$ are required
-    \item \small Out of a total of $n \leq 3f+1$ replicas, at most $f$ can be malicious
-    \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
-    \item \small This means at least $f+1$ \textcolor{red}{honest replicas} sent PREPARE messages for both values $v$ and $v'$
-    \item \small However, the maximum number of corrupted replicas is $f$, and honest replicas do not send PREPARE messages for multiple values with the same sequence number (by protocol definition)
-    \item \small This is a contradiction, so the assumption is incorrect
+\item \small Value $v$ requires COMMIT messages from at least $2f+1$ replicas in set $\mathcal{P}$
+\item \small Similarly, value $v'$ requires COMMIT messages from at least $2f+1$ replicas in set $\mathcal{Q}$
+\item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
+\item \small The intersection $\mathcal{P} \cap \mathcal{Q}$ contains at least $f+1$ replicas, and since the system has at most $f$ Byzantine replicas, at least $1$ honest replica must have sent COMMIT messages for both values $v$ and $v'$
+\item \small However, honest replicas never send COMMIT messages for different values with the same sequence number, creating a contradiction
+\item \small Therefore, the assumption is false
 \end{itemize}
 \end{frame}
 

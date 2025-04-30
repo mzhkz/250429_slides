@@ -1,10 +1,14 @@
 TMPDIR=tmp
 OUTDIR=out
 
-MAINFILE=moz_rg-en.tex
+EN_MAINFILE=moz_rg-en.tex
+JA_MAINFILE=moz_rg-ja.tex
 
-FILENAME=moz_rg-en
-PDFNAME=${FILENAME}.pdf
+EN_FILENAME=moz_rg-en
+JA_FILENAME=moz_rg-ja
+
+EN_PDFNAME=${EN_FILENAME}.pdf
+JA_PDFNAME=${JA_FILENAME}.pdf
 
 TEXLIVEIMAGE=texlive/texlive:TL2023-historic
 DOCKER=docker run -v $(CURDIR):/work -w /work/tmp ${TEXLIVEIMAGE}
@@ -23,29 +27,21 @@ COMMITHASH=NULL
 all: pdf
 
 pdf: tmp
-	cd ${TMPDIR} && ${PDFLATEX} ${FILENAME}
-	# cd ${TMPDIR} && ${BIBTEX} ${FILENAME} 
-	# cd ${TMPDIR} && ${PDFLATEX} ${FILENAME} 
-	# cd ${TMPDIR} && ${PDFLATEX} ${FILENAME}
-	cp ${TMPDIR}/${PDFNAME} ${OUTDIR}/
+	cd ${TMPDIR} && ${PDFLATEX} ${EN_FILENAME}
+	cd ${TMPDIR} && ${PDFLATEX} ${JA_FILENAME}
+	cp ${TMPDIR}/${EN_PDFNAME} ${OUTDIR}/
+	cp ${TMPDIR}/${JA_PDFNAME} ${OUTDIR}/
+combine:
+	cd ${OUTDIR} && pdftk ${EN_PDFNAME} ${JA_PDFNAME} cat output 0501-rg-joint-lecture_moz.pdf
 
 tmp:
 	mkdir -p ${TMPDIR}
 	mkdir -p ${OUTDIR}
 	cp -r figs ${TMPDIR}
-	cp ${MAINFILE} ${TMPDIR}
+	cp ${EN_MAINFILE} ${TMPDIR}
+	cp ${JA_MAINFILE} ${TMPDIR}
 	cp -r bib ${TMPDIR}
 
-
-diff: tmp
-	cd ${TMPDIR} && latexdiff-vc -e utf8 --git --flatten --force -r ${COMMITHASH} ${FILENAME}.tex
-	cd ${TMPDIR} && gsed -i 's/\\providecommand{\\DIFadd}\[1\]{{\\protect\\color{blue}\\uwave{#1}}} %DIF PREAMBLE/\\providecommand{\\DIFadd}[1]{{\\protect\\color{blue}#1}} %DIF PREAMBLE/'  ${FILENAME}-diff${COMMITHASH}.tex
-	cd ${TMPDIR} && gsed -i 's/\\providecommand{\\DIFdel}\[1\]{{\\protect\\color{red}\\sout{#1}}}                      %DIF PREAMBLE/\\providecommand{\\DIFdel}[1]{}                      %DIF PREAMBLE/'  ${FILENAME}-diff${COMMITHASH}.tex
-	cd ${TMPDIR} && ${PDFLATEX} -synctex=1 -shell-escape -file-line-error ${FILENAME}-diff${COMMITHASH}.tex
-	cd ${TMPDIR} && ${BIBTEX} ${FILENAME}-diff${COMMITHASH}
-	cd ${TMPDIR} && ${PDFLATEX} -synctex=1 -shell-escape -file-line-error ${FILENAME}-diff${COMMITHASH}.tex
-	cd ${TMPDIR} && ${PDFLATEX} -synctex=1 -shell-escape -file-line-error ${FILENAME}-diff${COMMITHASH}.tex
-	cp ${TMPDIR}/${FILENAME}-diff${COMMITHASH}.pdf ${OUTDIR}/
 
 clean:
 	rm -rf ${TMPDIR}/*

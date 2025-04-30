@@ -380,25 +380,42 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
 
 \vspace{0.5em}
 
-
-\textbf{Question}: なぜ$n \geq 3f + 1$のときSafetyが満たされるのか？ PBFTがセキュアであることを説明してみよう！
+\textbf{Question}: なぜ$n \geq 3f + 1$のときSafetyが満たされるのか？
+PBFTがセキュアであることを説明してみよう！
 \end{frame}
 
 \begin{frame}{PBFTのSafety証明}
 仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされたと仮定する。
 
 \begin{lemma}
-各値がコミットされるためには、少なくとも$2f+1$個のレプリカからPREPAREメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
+各値がコミットされるためには、少なくとも$2f+1$個のレプリカからCOMMITメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
 \end{lemma}
 
 \begin{itemize}
-    \item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{P}$からのPREPAREメッセージが必要
-    \item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのPREPAREメッセージが必要
-    \item \small 合計$n \leq 3f+1$レプリカのうち、悪意あるレプリカは最大$f$個
-    \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
-    \item \small つまり、少なくとも$f+1$個の\textcolor{red}{誠実なレプリカ}が両方の値$v$と$v'$についてPREPAREメッセージを送信したことになる
-    \item \small しかし、許容する腐敗レプリカは最大で$f$個であって、誠実なレプリカは同じシーケンス番号に対して複数の値にPREPAREを送信しない（プロトコルの定義により）
-    \item \small これは矛盾であり、したがって仮定は誤り
+\item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{P}$からのCOMMITメッセージが必要
+\item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのCOMMITメッセージが必要
+\item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
+\item \small $\mathcal{P} \cap \mathcal{Q}$の中には少なくとも$f+1$個のレプリカが存在し、システム全体で不正なレプリカは最大$f$個なので、少なくとも$1$個の誠実なレプリカが両方の値$v$と$v'$についてCOMMITメッセージを送信したことになる
+\item \small しかし、誠実なレプリカは同じシーケンス番号に対して異なる値のCOMMITメッセージを送信しないため、これは矛盾である
+\item \small したがって、仮定は誤り
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{PBFTのSafety証明}
+仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされたと仮定する。
+
+\begin{lemma}
+各値がコミットされるためには、少なくとも$2f+1$個のレプリカからCOMMITメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
+\end{lemma}
+
+\begin{itemize}
+\item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{P}$からのCOMMITメッセージが必要
+\item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのCOMMITメッセージが必要
+\item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
+\item \small $\mathcal{P} \cap \mathcal{Q}$の中には少なくとも$f+1$個のレプリカが存在し、システム全体で不正なレプリカは最大$f$個なので、少なくとも$1$個の誠実なレプリカが両方の値$v$と$v'$についてCOMMITメッセージを送信したことになる
+\item \small しかし、誠実なレプリカは同じシーケンス番号に対して異なる値のCOMMITメッセージを送信しないため、これは矛盾である
+\item \small したがって、仮定は誤り
 \end{itemize}
 \end{frame}
 
