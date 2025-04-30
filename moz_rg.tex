@@ -16,6 +16,7 @@
 
 % 図とアルゴリズム用パッケージ
 \usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
@@ -56,7 +57,12 @@
 \setbeamertemplate{footline}[frame number]  
 
 \title{\textsc{SFC-RG 全体講義} \\ プロトコル設計における脅威の明確化と正当性証明}
-\author{moz@sfc.keio.ac.jp}
+\author{
+    慶應義塾大学 大学院政策・メディア研究科\\
+    \vspace{0.5em}
+    Riku Mochizuki\\
+    moz@sfc.keio.ac.jp
+}
 \date{\today}
 
 \begin{document}
@@ -417,16 +423,12 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
 \end{frame}
 
 \begin{frame}{Universal Composability Framework}
-Universal Composability (UC) Framework を使えば、複雑なプロトコルの正当性を、シンプルな部品の完全性保証を元に示せる。
+UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプルな部品の完全性保証を元に示せる。
 つまり、複合プロトコル $\Pi[\pi_1,\dots,\pi_n]$ が正当であることを証明するには、各構成要素 $\pi_1,\dots,\pi_n$ の正当性を証明し、それらの組み合わせ方が適切であることを示す。
 
-%   \begin{proofblock}[Universal Composability (UC)]
-%     UC Framework は、プロトコルが理想機能を「UC-realize」することを通じて正当性を定義し，任意の並列合成下でも保証が保持されるよう設計されている．\footnote{正しくは環境 $\mathcal{Z}$ の観点から不可区別になることで正当性を定義するが、わかりやすさ優先でこのような直感的な定義とする。}
-%   \end{proofblock}
-
   \begin{proofblock}[理想機能 $\mathcal{F}$の定義]
-    理想機能 $\mathcal{F}$ とは、任意の関数 $f$ を実行する計算要素であり、全てのエンティティから入力を受け取り、$f$ を計算し、各エンティティに出力を返す。
-    すなわち、インターフェースを定義し、任意の入力に対して、出力を返す写像 $f$ を定義する。
+    理想機能 $\mathcal{F}$ とは、任意の関数 $f$ を実行するエンティティであり、全てのエンティティから入力を受け取り、$f$ を計算し、各エンティティに出力を返す。
+    すなわち、プロトコルのインターフェースを定義し、任意の入力に対して、出力を返す写像 $f$ を定義する。
     これは破壊不可能(すなわち、インターフェースや$f$の写像を変更することができない)な信頼されたエンティティとして考えることができる。
   \end{proofblock}
 
@@ -456,36 +458,53 @@ Universal Composability (UC) Framework を使えば、複雑なプロトコル�
       \item 環境 $\mathcal{Z}$ はエンティティと敵対者に入力を提供し、全ての出力を収集する。
     \end{itemize}
   \end{proofblock}
+\end{frame}
 
+\begin{frame}{理想／現実世界パラダイム}
   \begin{outlineblock}{}
-    理想世界は「完全に信頼できるエンティティ$\mathcal{F}$が全ての処理を行う世界」と考えることができる。
-    一方、現実世界は「信頼できるエンティティがいないため、エンティティ同士が通信しながら処理を行う世界」考えることができる。
-    したがって、プロトコルが正当であるとは、現実世界で各エンティティによって実行されたプロトコル $\pi$ が、理想世界で実行された理想機能 $\mathcal{F}$ と区別できないことを意味する。\footnote{正確には無視できる確率で区別できないである。なぜなら、UCは確率的多項式時間敵対者に対してのみ成立するからである。}
+    すなわち... それぞれの世界を以下のように解釈できる:
+    \begin{itemize}
+        \item 理想世界は「完全に信頼できるエンティティ$\mathcal{F}$が全ての処理を行う世界」と考えることができる。
+        \item 一方、現実世界は「信頼できるエンティティがいないため、エンティティ同士が通信しながら処理を行う世界」と考えることができる。
+        \item したがって、プロトコルが正当であるとは、現実世界で各エンティティによって実行されたプロトコル $\pi$ が、理想世界で実行された理想機能 $\mathcal{F}$ と区別できないことを意味する。\footnote{正確には無視できる確率で区別できないである。なぜなら、UCは確率的多項式時間(PPT)敵対者に対してのみ成立するからである。確率的多項式時間に関しては再掲となるが確率的チューリングマシンにおいてある問題の解法をオーダー$O(n^c)$に近似して表記できる。}
+    \end{itemize}
   \end{outlineblock}
-
-%   \footnote{例：PBFT ではクライアント入力 $m$ が $2f+1$ 台のレプリカで合意され，出力は恒等写像 $m\mapsto m$ を期待する。}
 \end{frame}
 
 
-\begin{frame}{理想と現実を区別する環境というエンティティ}
+\begin{frame}{理想と現実世界を操作する環境エンティティ}
+    この二つの世界を操作するエンティティが環境 $\mathcal{Z}$ である。
     \begin{proofblock}[環境 $\mathcal{Z}$]
     \begin{itemize}
-      \item 環境 $\mathcal{Z}$ はプロトコル外の全てのシステム（ユーザ，他のプロトコルなど）を抽象化したもの。
-      \item $\mathcal{Z}$ は理想世界ではダミーエンティティと $\mathcal{F}$ およびシミュレータ $Sim$ に、現実世界ではエンティティと敵対者 $\mathcal{A}$ に対して入力を送り、出力を受け取る。
-      \item $\mathcal{Z}$ は両世界の相互作用を観察し、どちらの世界で実行されているかを推測しようとする。\footnote{$\mathcal{Z}$ は現実世界における $\pi$ と $\mathcal{A}$ との相互作用と、理想世界における $\mathcal{F}$ と $Sim$ との相互作用の違いを探し出す}
+      \item 環境 $\mathcal{Z}$ はプロトコル外の全てのシステム（他のプロトコルなど）を抽象化したもの。
+      \item $\mathcal{Z}$ は理想世界ではダミーエンティティにプロトコル入力を送り、それらの出力とシミュレータ $Sim$ からの出力を受け取る。\footnote{正確には、環境は直接 $\mathcal{F}$ と通信せず、ダミーエンティティを介して間接的に相互作用する}
+      \item $\mathcal{Z}$ は現実世界ではプロトコルを実行するエンティティに入力を送り、それらの出力と敵対者 $\mathcal{A}$ からの出力を受け取る。
+      \item $\mathcal{Z}$ は自分が相互作用している世界が理想世界か現実世界かを区別しようとする。\footnote{つまり、$\mathcal{Z}$ は現実世界における実プロトコルとエンティティの振る舞いと、理想世界における理想機能とダミーエンティティの振る舞いの違いを見つけようとする。}
     \end{itemize}
   \end{proofblock}
 \end{frame}
 
+\begin{frame}{理想世界と現実世界の比較}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.65\textwidth]{figs/uc.png}
+        \caption{理想世界と現実世界の相互作用. 理想世界では各ダミーパーティー$P_i$は理想機能$\mathcal{F}$と直接通信するが、現実世界ではプロトコル$\pi$を実行するエンティティ$P_i$同士が通信する.このような見方をするので$\mathcal{F}$は信頼する理想機能と考えることができる。}
+        \label{fig:uc_comparison}
+    \end{figure}
+
+\end{frame}
+
 \begin{frame}{UCにおける正当性の主張}
+  
   \begin{proofblock}[UC正当性の定義]
    環境 $\mathcal{Z}$ は現実世界と理想世界の相互作用の違いを探そうとするが、どちらも区別できなければ$\pi$ は理想機能 $\mathcal{F}$ を正当に実現していると言える。\footnote{これを「$\pi$ は $\mathcal{F}$ を UC-realize する」という}。
 
     \medskip
-    \textbf{厳密な定義}
-    セキュリティパラメータ $\kappa \in \mathbb{N}$ とプロトコル $\Pi$ について、以下が成り立つとき、$\Pi$ は理想機能 $\mathcal{F}$ を``UC-realize''するという：
-    任意の確率的多項式時間\footnote{UCでは確率的多項式時間敵対者に対してのみ成立する}敵対者 $\mathcal{A}$ に対し，確率的多項式時間アルゴリズム $Sim$ が存在し，任意の確率的多項式時間環境 $\mathcal{Z}$ と任意の入力 $x \in \{0,1\}^*$ について：
-    % \[ IDEAL_{\mathcal{F},Sim,\mathcal{Z}}(\kappa, x) \approx_c REAL_{\Pi,\mathcal{A},\mathcal{Z}}(\kappa, x) \]
+    \small \textbf{厳密な定義. }
+    \small セキュリティパラメータ $\kappa \in \mathbb{N}$ とプロトコル $\Pi$ について、以下が成り立つとき、$\pi$ は理想機能 $\mathcal{F}$ を``UC-realize''するという：
+    \small 任意の確率的多項式時間\footnote{UCでは確率的多項式時間敵対者に対してのみ成立する}敵対者 $\mathcal{A}$ に対し，確率的多項式時間アルゴリズム $Sim$ が存在し，任意の 確率的多項式時間環境 $\mathcal{Z}$ と任意の入力 $x \in \{0,1\}^*$ について：
+    \[ EXEC_{\mathcal{F},Sim,\mathcal{Z}}(\kappa, x) \approx EXEC_{\Pi,\mathcal{A},\mathcal{Z}}(\kappa, x) \]
   \end{proofblock}
 \end{frame}
 
@@ -494,7 +513,9 @@ Universal Composability (UC) Framework を使えば、複雑なプロトコル�
     \item \textbf{モジュール性 (Modularity). } 複雑な課題を小さなプロトコルに分解でき、各プロトコルの正当性を独立して証明できる。
     \item \textbf{合成定理 (Composition Theorem). } プロトコル $\pi$ が理想機能 $\mathcal{F}$ をUC-realizeし、プロトコル $\rho$ が $\mathcal{F}$ を使って理想機能 $\mathcal{G}$ をUC-realizeするなら、$\pi$ で $\mathcal{F}$ を置き換えたプロトコル $\rho^{\mathcal{F} \rightarrow \pi}$ も $\mathcal{G}$ をUC-realizeする。
   \end{itemize}
-  
+
+  \vspace{1em}
+
   \begin{outlineblock}{}
     UCフレームワークの核心は「合成可能性 (Composability)」：一度証明されたプロトコルの正当性は、どのような複雑な環境でも保持される。これにより、安全なプロトコルの段階的な構築と再利用が可能になる。
   \end{outlineblock}
@@ -509,19 +530,19 @@ Universal Composability (UC) Framework を使えば、複雑なプロトコル�
   \end{proofblock}
   
   \begin{itemize}
-    \item \textbf{セッション識別子 (sid)}：各プロトコル実行を識別する一意の識別子
+    \item \textbf{セッション識別子 ($sid$)}：各プロトコル実行を識別する一意の識別子
     \item たとえば...ブロックチェーン上では、スマートコントラクトのアドレスが$sid$として機能する
   \end{itemize}
   
   \begin{outlineblock}{}
-    UCフレームワークでのインスタンス処理: 基本的なUCフレームワークでは、各プロトコルインスタンスは独自のハイブリッド機能インスタンスを持つ。
+    基本的なUCフレームワークでは、各プロトコルインスタンスは独自のインスタンスを持つ。
     しかし、これは現実的ではない場合がある（例：同じハッシュ関数が複数のプロトコルで使用される場合）。
   \end{outlineblock}
 \end{frame}
 
-\begin{frame}{一般化されたUniversal Composability (GUC) Framework}
+\begin{frame}{Generalized Universal Composability (GUC) Framework}
   \begin{proofblock}[GUC Frameworkとは]
-    UCの拡張フレームワークで、複数のプロトコルインスタンスで共有される「グローバル機能」の概念を導入している。
+    UCの拡張フレームワークで、複数のプロトコルインスタンスで共有される``グローバル機能''の概念を導入している。
   \end{proofblock}
   
   \begin{proofblock}[グローバル機能 (Global Functionality)]
@@ -533,6 +554,28 @@ Universal Composability (UC) Framework を使えば、複雑なプロトコル�
   \end{proofblock}
 
   GUCによって、並列実行環境を実現するだけではなく、インスタンスを個別に分析する必要がない。
+\end{frame}
+
+
+\begin{frame}{なぜこのような正当性証明方法を身につける必要がある？}
+\begin{outlineblock}
+     学術に受け入れられるフォーマットで学術論文を書く。\footnote{とりわけ国際ジャーナルやトップコンファレンスと呼ばれているところは。トップコンファレンスとは採択率は20\%前半はそれ以下、もしくはCOREランクが$A$や$A^{+}$のコンファレンス}
+     じゃないとその時点でプロトコルの設計一見が良くても門前払いされる。
+\end{outlineblock}
+
+ただ、プロトコルの仕様や実装を書くだけでは\\
+``
+\textit{Since there is no formal security model, it is hard to verify the formal correctness of the claims. Moreover, the scheme includes many low-level implementation details instead of giving a general description of their scheme.}
+''
+と言われる。\\
+\small(mozが2年前にCRYPTO'23というトップコンファレンスでもらった査読コメント抜粋)
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.58\textwidth]{figs/uc-citation.png}
+        \caption{2023年4月30日の時点でのUCフレームワークの引用数}
+        \label{fig:uc_citation}
+\end{figure}
 \end{frame}
 
 
@@ -640,15 +683,6 @@ Universal Composability (UC) Framework を使えば、複雑なプロトコル�
 今回は理論的な視点を提供したが、ぜひ運用視点を他のkGから聞くことで、自身の研究（分野）に新たな解釈をもたらすかもしれない。
 そのような解釈を皆で有機的に生み出し、共有し、高め合う全体講義になればと願っている。
 \end{frame}
-
-
-\begin{frame}{おすすめ資料}
-\begin{itemize}
-    \item https://www.cl.cam.ac.uk/teaching/2122/ConcDisSys/dist-sys-handout.pdf
-    \item https://www.bu.edu/macs/files/2016/03/2016-03-18-uc-tutorial-slides.pdf
-    \end{itemize}
-\end{frame}
-
 
 % ・・・・・・・・・・
 
