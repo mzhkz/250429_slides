@@ -490,23 +490,98 @@ Universal Composabilityを用いてプロトコルの正当性証明を行う。
 単一のエンティティが複数のエンティティを模倣し、システム内で不当な影響力を得る攻撃である。\footnote{1人のエンティティが山田花子と山田次郎の二つの役を演じているが、他のエンティティは山田花子と山田次郎が同一のエンティティであるかどうかを判断できない。}
 \end{proofblock}
 
-例：PBFTでは$n \geq 3f+1$の条件がある。$n$はノードの数、$f$は敵対者の数である。
-これは各レプリカとメッセージの送信源が一意に定まることを要求する。
-敵対者が単一のエンティティ（敵対者）が複数のエンティティとして振る舞えることを許すと、条件が破綻する。
+\begin{outlineblock}[Sybil Attackの条件]
+    PBFTでは$n \geq 3f+1$の条件がある。$n$はノードの数、$f$は敵対者の数である。
+    これは各レプリカが一意に識別化であり、メッセージの送信元に偽りがないことを暗黙の前提においている
+    敵対者が単一のエンティティ（敵対者）が複数のエンティティとして振る舞えることを許すと、条件が破綻する。\footnote{Corruption ModelのByzantineに一定の妥協を許している。これはいいのか？}
+\end{outlineblock}
 \end{frame}
 
-\begin{frame}{アイデンティティの生成コスト}
-公開鍵を識別子として用いる場合、大抵の計算機では公開鍵は計算コストが低いため、Sybil Attackに脆弱である。
+\begin{frame}{デジタル署名}
+メッセージの送信元に偽りがないことを検証するためには、メッセージにデジタル署名を付与し、デジタル署名を検証する必要がある。
 
-単にノードが公開鍵に対応する秘密鍵を持っていることをデジタル署名を用いて示すだけでは、そのノードが独立した実体\footnote{エンティティをどのように区別し、何を持って独立と定義するのかは議論の余地がある。}であることを保証できない。
+\begin{proofblock}[デジタル署名]
+    数学的な関係性がある公開鍵 (verification key) $pk$と秘密鍵 (signing key) $sk$のペアを用いて、メッセージの送信元を検証する。
+    \begin{itemize}
+        \item メッセージ$m$をデジタル署名する：$\sigma \gets \textsc{Sign}(sk, m)$
+        \item メッセージ$m$と署名$\sigma$を検証する：$\{0, 1\} \gets \textsc{Verify}(pk, m, \sigma)$ where $1$ if $m$ is valid, $0$ otherwise
+    \end{itemize}
+\end{proofblock}
+具体的なデジタル署名スキームとしては、RSA、ECDSA、EdDSA、Schnorr署名などがある。
+\end{frame}
 
-単一のエンティティと公開鍵の一対一対応を保証するためには、認証局による一対一対応の検証と証明が必要である。
+
+\begin{frame}{メッセージの真正性の検証}
+エンティティ$\mathcal{P}$がメッセージ$m$をエンティティの$\mathcal{Q}$に送付したとする。
+エンティティ$\mathcal{Q}$はメッセージ$m$を確かに$\mathcal{P}$から受け取ったことを検証する必要がある。
+
+\vspace{0.5em}
+
 \begin{itemize}
-    \item 認証局の存在を許す = 信頼できる第三者の存在を仮定する
-    \item 単一障害点とスケーラビリティの問題が生じる\footnote{あるエンティティが自分は山田花子と主張したが、本当に山田花子であるかどうかを検証したあとに、山田花子とそのエンティティが提示した公開鍵を紐付ける。その紐付きに対して認証局か署名を行い、証明書を作成する。}
+    \item エンティティ$\mathcal{P}$がメッセージ$m$に対するデジタル署名$\sigma$を公開鍵$pk_{\mathcal{P}}$に対応する秘密鍵$sk_{\mathcal{P}}$を用いて生成する。
+    \item $\mathcal{P}$は$(m, \sigma)$を$\mathcal{Q}$に送付する。
+    \item $\mathcal{Q}$は受け取った$(m, \sigma)$を検証する：$\textsc{Verify}(pk_{\mathcal{P}}, m, \sigma) \stackrel{?}{=} 1$
 \end{itemize}
 
-ほかにも\textbf{Proof-of-Work/Stake}：新たな識別子の作成に計算資源や経済的資源を要求する研究もある。
+\begin{outlineblock}[デジタル署名を用いたメッセージの真正性の検証に必要な仮定]
+    検証の正当性確保に必要な仮定: $\mathcal{Q}$は$\mathcal{P}$の公開鍵$pk_{\mathcal{P}}$を知っている。
+\end{outlineblock}
+
+\textbf{Question}: これだけでよいか？
+
 \end{frame}
 
+
+
+\begin{frame}{識別子の生成コスト}
+\textbf{Answer}: 不十分。
+``デジタル署名で送信元を区別できる $\Leftrightarrow$ エンティティを区別できる''という命題は必ずしも成立しないからである。
+
+\begin{outlineblock}
+    デジタル署名はメッセージの送信者を区別できるが、エンティティと公開鍵の\underline{一対一対応}が仮定されなければ、検証の正当性は保証されない。
+\end{outlineblock}
+
+\begin{itemize}
+    \item 単一のエンティティが複数の公開鍵を生成し複数のエンティティとして振る舞える
+    \item エンティティと公開鍵の一対一対応を保証するためにはKey Management System\footnote{Key Management System (KMS)は、エンティティと公開鍵の一対一対応を保証するシステムである。Public Key Infrastructure (PKI)はKey Management Systemの一種である。}が必要。KMSは一対一対応の検証する\footnote{検証は二つある。第一にあるエンティティが自分は山田花子と主張したが、本当に山田花子であるかどうかを検証する。第二にエンティティ群と公開鍵の写像を定義すると、その関係性が全単射であることを確認する。確認後、KMSは紐付きが有効であることを示す署名 (=証明書)を発行する。利用者はKMSを信頼することで、この検証を署名の検証に置き換えることができる。}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{KMSの問題}
+しかし、KMSには以下の問題がある：
+\begin{itemize}
+    \item 認証局の存在を許す = 信頼できる第三者の存在を仮定する
+    \item 単一障害点とスケーラビリティの問題が生じる
+\end{itemize}
+ほかにも\textbf{Proof-of-Work}：新たな識別子の作成に計算資源を要求する研究もある。
+
+\begin{outlineblock}
+    \begin{itemize}
+        \item 分散システムの文脈でプロトコルを俯瞰すると、分散システムの魅力や効力を最大限発揮できないボトルネック（暗黙、非自明な仮定）が存在する。それは必ずしも学術論文に書かれているとは限らない。
+    \end{itemize}
+\end{outlineblock}
+
+\end{frame}
+
+
+\begin{frame}{One more thing}
+どうやったらインパクトのある問題を見つけるか？
+\begin{outlineblock}
+    \begin{itemize}
+        \item 運用を片手に持つ、ということは、理論の中で議論されたプロトコルの解釈方法を多様化できる力があることと等しい。
+        \item すなわちそのプロトコルが置かれる状況（提案手法の論理を支える仮定\footnote{例えば、敵対者モデル、ネットワーク、タイミングモデル}）を変えるとボトルネックが無視できるか、できないかを判断できる。
+        \item そのような探求がインパクトがあり、明確なProblem Statementに役立つとmozは信じている。
+    \end{itemize}
+\end{outlineblock}
+今回は理論的な視点を提供したが、ぜひ運用視点を他のkGから聞くことで、自身の研究（分野）に新たな解釈をもたらすかもしれない。
+そのような解釈を皆で有機的に生み出し、共有し、高め合う全体講義になればと願っている。
+\end{frame}
+
+
+\begin{frame}{おすすめ資料}
+\begin{itemize}
+    \item https://www.cl.cam.ac.uk/teaching/2122/ConcDisSys/dist-sys-handout.pdf
+    \item https://www.bu.edu/macs/files/2016/03/2016-03-18-uc-tutorial-slides.pdf
+    \end{itemize}
+\end{frame}
 \end{document}
