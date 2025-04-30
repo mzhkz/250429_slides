@@ -97,12 +97,13 @@ A set of instructions for performing a task or solving a problem.
 \end{proofblock}
 
 アルゴリズムは計算手順に焦点を当てるのに対し、プロトコルは参加者間の相互作用に重点を置く。
-\footnote{プロトコルは英語や日本語など共通のルールで会話する例として説明されることが多いが、これは相互作用の規則を表しているためである。一方で「日本語アルゴリズム」という表現が一般的でないのは、アルゴリズムが相互作用ではなく計算手順を表すためである。}
+\footnote{プロトコルは英語や日本語など共通のルールで会話する例として説明されることが多いが、これは相互作用の規則を表しているためである。
+一方で「日本語アルゴリズム」という表現が一般的でないのは、アルゴリズムが相互作用ではなく計算手順を表すためである。}
 一般的なプロトコルの例：HTTP、SMTP、TLS/SSL、SSH、OAuth、Paxos、Raft
 
 \end{frame}
 
-\begin{frame}{安全なプロトコルの設計}
+\begin{frame}{正当（Correctness）なプロトコルの設計をどうやるか}
 この講義はプロコトルの設計手法については紹介しない。
 
 \begin{outlineblock}[]
@@ -115,7 +116,7 @@ A set of instructions for performing a task or solving a problem.
     \item エンティティ間でどのような情報交換が行われるか
     \item プロトコルはどのような条件を満たせば安全であると言えるのか
     \item \textbf{それぞれのエンティティがどのような振る舞いをする可能性があるか}
-    \item \textbf{そのようなエンティティが存在するときに、プロコトルが安全であるかどうかをどのように判断するか}
+    \item \textbf{そのようなエンティティが存在するときに、プロコトルが正当\footnote{Safety（悪いことが起こらない）, Liveness（良いことがいつか起こる）のプロパティを共に満たすか}であるかどうかをどのように判断するか}
 \end{itemize}
 
 \end{frame}
@@ -371,8 +372,8 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
 \end{lemma}
 
 \begin{itemize}
-    \item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ$\mathcal{P}$からのPREPAREメッセージが必要
-    \item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ$\mathcal{Q}$からのPREPAREメッセージが必要
+    \item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{P}$からのPREPAREメッセージが必要
+    \item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのPREPAREメッセージが必要
     \item \small 合計$n \leq 3f+1$レプリカのうち、悪意あるレプリカは最大$f$個
     \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
     \item \small つまり、少なくとも$f+1$個の\textcolor{red}{正直なレプリカ}が両方の値$v$と$v'$についてPREPAREメッセージを送信したことになる
@@ -381,71 +382,94 @@ $n \geq 3f + 1$のとき（$f$は腐敗ノードの数、$n$はレプリカの�
 \end{itemize}
 \end{frame}
 
-\begin{frame}{合成可能性問題 (Composability Problem)}
+\begin{frame}{複雑化したプロトコルの正当性証明}
 ちょっとお題が変わって、複雑なプロトコルの証明について考えてみよう。
 
-分散システムでは、既存のプロトコル上に新しいプロトコルを構築することが一般的である\footnote{例えば、PBFTを使用するHyperledger Fabric上に新たなアプリケーションを構築}
+PBFTのようなシンプルなプロコトルはレアケース
+
+\begin{itemize}
+    \item PBFTのようなシンプルなプロコトルはレアケース
+    \item プロトコル設計では、既存のプロトコル上に新しいプロトコルを構築することが一般的である\footnote{例えば、PBFTを使用するHyperledger Fabric上に新たなアプリケーションを構築}
+\end{itemize}
+
+\begin{proofblock}[複雑なプロトコル]
+    複数のプロトコル$\pi_1, \pi_2, \cdots, \pi_n$があったとき、それらを組み合わせたプロトコル$\Pi^{\pi_1, \pi_2, \cdots, \pi_n}$を複雑なプロトコルと呼ぶ。
+\end{proofblock}
 
 \vspace{0.5em}
 
-\textbf{Motivation}：複数のプロトコル$\pi_1, \pi_2, \cdots, \pi_n$があったとき、それらを組み合わせたプロトコル$\Pi^{\pi_1, \pi_2, \cdots, \pi_n}$の証明はどう行うか？
+\textbf{Motivation}：複数のプロトコル$\Pi^{\pi_1, \pi_2, \cdots, \pi_n}$の正当性保証（とりわけSafety）はどう行うか？
 
-システム全体を最初から再証明するのは非常に複雑で時間がかかる。
 \end{frame}
 
 \begin{frame}{Universal Composability Framework}
-解決策の一つ：\textcolor{red}{Universal Composability (UC)}を用いたプロトコルの安全性証明
-セキュリティ分析において考慮される攻撃の範囲と限界を明示的に定義する。明示的な脅威モデリングが不可欠である。
+Universal Composabilityを用いてプロトコルの正当性証明を行う。
+
+\begin{proofblock}[Universal Composability (UC)]
+    Universal Composabilityは、セキュリティ分析において考慮される攻撃の範囲と限界を明示的に定義する。明示的な脅威モデリングが不可欠である。
+\end{proofblock}。
 \vspace{0.5em}
 
-UCは、プロトコルを部品の集合として捉え、これらの部品を合成したプロトコルのセキュリティを保証する。
 これにより、複雑なシステムの分析を、より単純な構成要素の分析に還元できる。
 \end{frame}
 
-\begin{frame}{Universal Composability Framework}
-Universal Composability (UC)の中心的なアイデアは、\textcolor{red}{理想/現実世界パラダイム}である：
 
-\vspace{0.5em}
-
-\textbf{理想世界 (Ideal World)}：
-    \begin{itemize}
-        \item 理想機能 $\mathcal{F}$ が直接タスクを安全に実行する
-        \item これは「定義上安全」な仕様を表す抽象的なエンティティ
-        \item 例：理想的な署名機能 $\mathcal{F}_{\text{sig}}$ は、正当な署名者のみが署名を生成でき、偽造が不可能であることを保証
-    \end{itemize}
-     
-\vspace{0.5em}
-
-\textbf{現実世界 (Real World)}：
-    \begin{itemize}
-        \item 実際のプロトコル $\Pi$ が参加者によって実装され、敵対者 $\mathcal{A}$ の攻撃に晒される
-        \item 敵対者は、前述の脅威モデル（腐敗、適応性、計算能力等）に基づいて定義される
-        \item 攻撃に晒されるということは、理想世界のような「定義上の安全性」が自明でなく、証明が必要になる
-    \end{itemize}
+\begin{frame}{理想/現実世界パラダイム}
+    parapappapa...
+    プロトコルには任意の入力を受け取り、出力機能が存在する。\footnote{PBFTでは、クライアントからの入力を受け取り、$2f + 1$個のレプリカの出力を返す。期待する写像としては入力と出力が同一な恒等写像である。}
 \end{frame}
 
-\begin{frame}{Universal Composability Framework（続き）}
-\textbf{環境} $\mathcal{Z}$：
-    \begin{itemize}
-        \item プロトコル外部のすべてのシステム（ユーザー、他のプロトコル等）を表現する
-        \item 入力を提供し（例：署名すべきメッセージ）、出力を受け取る（例：署名された結果）
-        \item 環境はプロトコル参加者と敵対者の両方と相互作用し、どちらの世界（理想/現実）で動作しているかを区別しようとする
-    \end{itemize}
-    
-\textbf{\textcolor{red}{シミュレータ}} $\mathcal{S}$：
-    \begin{itemize}
-        \item 理想世界で敵対者を模倣するエンティティ
-        \item 現実世界の敵対者の振る舞いを理想世界でシミュレートし、環境から見て区別不可能にする
-    \end{itemize}
+\begin{frame}{理想と現実世界}
 
-\begin{proofblock}[セキュリティの定義]
-任意の敵対者 $\mathcal{A}$ に対して、シミュレータ $\mathcal{S}$ が存在し、どんな環境 $\mathcal{Z}$ も以下を区別できないこと：
+\begin{proofblock}[理想世界 (Ideal World)]
+    \begin{itemize}
+        \item \small プロトコルのインターフェースを定義し理想となる入力と出力の写像を定義する。\\これを理想機能 $\mathcal{F}$という。
+        \item \small 理想世界で敵対者を模倣するエンティティのシミュレータ$Sim$が存在する。
+        \item \small シミュレータ$Sim$は、理想機能 $\mathcal{F}$ を呼び出す
+    \end{itemize}
 \end{proofblock}
+
+\begin{proofblock}[現実世界 (Real World)]
+    \begin{itemize}
+        \item \small インターフェースにそって実際の手続きと計算を定義する。これをプロトコル$\Pi$ という。
+        \item \small プロトコル$\Pi$ は各エンティティによって実行され、敵対者 $\mathcal{A}$ の攻撃に晒される
+        \item \small 敵対者は腐敗したエンティティを制御し、プロトコルの実行を妨害しようとする
+        \item \small 現実世界では、プロトコルの正当性は自明ではない (自明を示すためのするための証明だからね！)
+    \end{itemize}
+\end{proofblock}
+\end{frame}
+
+
+\begin{frame}{Universal Composability Framework（続き）}
+\begin{proofblock}[環境$\mathcal{Z}$]
+    \begin{itemize}
+        \item \small プロトコル以外（外部）のすべてのシステム（ユーザー、他のプロトコル等）を表現する
+        \item \small 環境は、理想世界のシミュレータと現実世界のエンティティと敵対者の両者に入力を提供し、出力を受け取る (対話)
+        \item \small 環境は出力から理想世界と現実世界の区別がつかないかをチェックする
+    \end{itemize}
+\end{proofblock}
+    
+
+\begin{proofblock}[プロトコル$\Pi$が正当である定義]
+\small 脅威モデル $\Lambda$ における任意の敵対者 $\mathcal{A}$ に対して、対応するシミュレータ $\mathcal{S}$ が理想世界に存在し、どんな環境 $\mathcal{Z}$ も以下を区別できないこと：
 \begin{itemize}
-    \item 実際のプロトコル $\Pi$ と敵対者 $\mathcal{A}$ との対話
-    \item 理想機能 $\mathcal{F}$ とシミュレータ $\mathcal{S}$ との対話
+    \item \small 実際のプロトコル $\Pi$ と敵対者 $\mathcal{A}$ との対話
+    \item \small 理想機能 $\mathcal{F}$ とシミュレータ $\mathcal{S}$ との対話
+\end{itemize}
+\end{proofblock}
+難しく説明したけど、要件に沿っていることを数理的、論理的に示そうねということです。
+\end{frame}
+
+
+\begin{frame}{何が嬉しいのか？}
+
+\begin{itemize}
+    \item \textbf{ネットワークモデル}：非同期か同期か、部分同期（通信遅延に上限がある）か
+    \item \textbf{敵対者モデル}： 敵対者はどのように振る舞うか
+    \item \textbf{腐敗ノードの数}：攻撃者が制御できるエンティティの数の条件 ($n \geq 3f+1$ など)
 \end{itemize}
 
+\textbf{Question}: 実世界で動かす上で考えるべき脅威、仮定はこれだけか？
 \end{frame}
 
 \begin{frame}{本当に仮定はこれだけでいいのか？}
@@ -453,7 +477,7 @@ Universal Composability (UC)の中心的なアイデアは、\textcolor{red}{理
 \begin{itemize}
     \item \textbf{ネットワークモデル}：非同期か同期か、部分同期（通信遅延に上限がある）か
     \item \textbf{敵対者モデル}： 敵対者はどのように振る舞うか
-    \item \textbf{腐敗ノードの数}：全体の何割まで敵対者が制御できるか ($n \geq 3f+1$ など)
+    \item \textbf{腐敗ノードの数}：攻撃者が制御できるエンティティの数の条件 ($n \geq 3f+1$ など)
 \end{itemize}
 
 \textbf{Question}: 実世界で動かす上で考えるべき脅威、仮定はこれだけか？
@@ -463,11 +487,12 @@ Universal Composability (UC)の中心的なアイデアは、\textcolor{red}{理
 これだけではすべてのプロトコルにSybil Attackが適用できてしまう。
 
 \begin{proofblock}[Sybil Attack]
-単一の実体が複数の偽の身元を作成し、システム内で不当な影響力を得る攻撃である。
+単一のエンティティが複数のエンティティを模倣し、システム内で不当な影響力を得る攻撃である。\footnote{1人のエンティティが山田花子と山田次郎の二つの役を演じているが、他のエンティティは山田花子と山田次郎が同一のエンティティであるかどうかを判断できない。}
 \end{proofblock}
 
 例：PBFTでは$n \geq 3f+1$の条件がある。$n$はノードの数、$f$は敵対者の数である。
-敵対者が単一のエンティティ（敵対者）が複数のエンティティとして振る舞えることを許すと、容易に条件を破ることができる。
+これは各レプリカとメッセージの送信源が一意に定まることを要求する。
+敵対者が単一のエンティティ（敵対者）が複数のエンティティとして振る舞えることを許すと、条件が破綻する。
 \end{frame}
 
 \begin{frame}{アイデンティティの生成コスト}
