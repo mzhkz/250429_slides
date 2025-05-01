@@ -75,16 +75,16 @@
 \begin{frame}{主題と目的}
 \underline{主題}
 \begin{itemize}
-    \item プロコトルの設計について紹介する
+    \item プロトコルの設計について紹介する
     \item 脅威モデルについて紹介する
-    \item プロコトルの正当性証明（Formal Proof）について紹介する
+    \item プロトコルの正当性証明（Formal Proof）について紹介する
     \item 最後にDelight的な（分散システムとデジタルアイデンティティについての）研究課題を紹介する
 \end{itemize}
 
 \underline{目的}
 \begin{itemize}
-    \item 分散システムにおけるプロコトルの設計（のお気持ち）を理解する
-    \item プロコトルの設計における正当性保証の考え方（のお気持ち）を理解する
+    \item 分散システムにおけるプロトコルの設計（のお気持ち）を理解する
+    \item プロトコルの設計における正当性保証の考え方（のお気持ち）を理解する
     \item 自身のプロトコルを学術論文としてまとめる際、どのような構成で何を明らかにすれば良いかを理解する
 \end{itemize}
 \end{frame}
@@ -111,19 +111,19 @@ A set of instructions for performing a task or solving a problem.
 \end{frame}
 
 \begin{frame}{正当（Correctness）なプロトコルの設計をどうやるか}
-この講義はプロコトルの設計手法については紹介しない。
+この講義はプロトコルの設計手法については紹介しない。
 
 \begin{outlineblock}[]
-    皆さんが自分のドメインで設計したプロコトルがなぜ正当(Correctness)と言えるのかをどのように他人に説明できるかを考える講義
+    皆さんが自分のドメインで設計したプロトコルがなぜ正当(Correctness)と言えるのかをどのように他人に説明できるかを考える講義
 \end{outlineblock}
 
-プロコトルの正当性を示すには、以下の点を明確にすることが重要である：
+プロトコルの正当性を示すには、以下の点を明確にすることが重要である：
 \begin{itemize}
     \item どのようなエンティティがプロトコルに関与するか
     \item エンティティ間でどのような情報交換が行われるか
     \item プロトコルはどのような仕様を満たせばよいのか
     \item \textbf{それぞれのエンティティがどのような振る舞いをする可能性があるか}
-    \item \textbf{そのようなエンティティが存在するときに、プロコトルが正当\footnote{Safety（悪いことが起こらない）, Liveness（良いことがいつか起こる）のプロパティを共に満たすか}であるかどうかをどのように判断するか}
+    \item \textbf{そのようなエンティティが存在するときに、プロトコルが正当\footnote{Safety（悪いことが起こらない）, Liveness（良いことがいつか起こる）のプロパティを共に満たすか}であるかどうかをどのように判断するか}
 \end{itemize}
 
 \end{frame}
@@ -152,7 +152,7 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 \begin{figure}
     \centering
     \includegraphics[width=0.56\textwidth]{figs/interaction-adversary.pdf}
-    \caption{敵対者とエンティティの関係。敵対者は誠実なエンティティのメッセージを傍受したり、直接エンティティを制御したりすることで、プロトコルに腐敗したエンティティを導入することができる。\footnote{エンティティが直接、腐敗することはないことに注意！}}
+    \caption{敵対者とエンティティの関係。敵対者は誠実なエンティティのメッセージを傍受したり、直接エンティティを制御したりすることで、プロトコルに腐敗したエンティティを導入することができる。(エンティティが直接、腐敗することはないことに注意！)}
     \label{fig:interaction-adversary}
 \end{figure}
 
@@ -318,7 +318,7 @@ IoTやモバイルデバイス、システムの長期運用の視点を考え�
 \end{itemize}
 \end{proofblock}
 
-PBFTプロトコルは、部分同期モデルにおいて初めてLinearlizableを達成することを示したプロトコルである。
+PBFTプロトコルは、部分同期モデルにおいて初めてLinearizableを達成することを示したプロトコルである。
 発表から20年経った現在でも、PBFTは依然として広く使われている。
 
 
@@ -358,7 +358,7 @@ PBFTの脅威モデルを考えてみよう。
     \item \textbf{Adaptivity}：Adaptive - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
     \item \textbf{Computational Power}：Polynomially Bounded - 多項式時間の計算に制限される
     \item \textbf{Visibility}：Private channels - 誠実なレプリカ間の通信内容は秘密であり、内部状態も敵対者からは見えない
-    \item \textbf{Mobility}：Mobile - 敵対者はプロトコルの各フェーズで異なるレプリカを動的に腐敗させられる
+    \item \textbf{Mobility} Fixed - 一度腐敗したレプリカはプロトコル実行中ずっと腐敗したままであり、回復することはない
 \end{itemize}
 \end{proofblock}
 \end{frame}
@@ -395,7 +395,7 @@ PBFTがセキュアであることを説明してみよう！
 \item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{P}$からのCOMMITメッセージが必要
 \item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのCOMMITメッセージが必要
 \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
-\item \small $\mathcal{P} \cap \mathcal{Q}$の中には少なくとも$f+1$個のレプリカが存在し、システム全体で不正なレプリカは最大$f$個なので、少なくとも$1$個の誠実なレプリカが両方の値$v$と$v'$についてCOMMITメッセージを送信したことになる
+\item \small $\mathcal{P} \cap \mathcal{Q}$の中には少なくとも$f+1$個のレプリカが存在し、システム全体で不正なレプリカは最大$f$個なので、\underline{少なくとも$1$個の誠実なレプリカが両方の値$v$と$v'$についてCOMMITメッセージを送信したことになる}
 \item \small しかし、誠実なレプリカは同じシーケンス番号に対して異なる値のCOMMITメッセージを送信しないため、これは矛盾である
 \item \small したがって、仮定は誤り
 \end{itemize}
@@ -498,7 +498,8 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 \begin{frame}{UCにおける正当性の主張}
   
   \begin{proofblock}[UC正当性の定義]
-   環境 $\mathcal{Z}$ は現実世界と理想世界の相互作用の違いを探そうとするが、どちらも区別できなければ$\pi$ は理想機能 $\mathcal{F}$ を正当に実現していると言える。\footnote{これを「$\pi$ は $\mathcal{F}$ を UC-realize する」という}。
+   環境 $\mathcal{Z}$ は現実世界と理想世界の相互作用の違いを探そうとするが、どちらも区別できなければ$\pi$ は理想機能 $\mathcal{F}$ を正当に実現していると言える。\\
+   これを``$\pi$ は $\mathcal{F}$ を UC-realize する''という。
 
     \medskip
     \small \textbf{厳密な定義. }
@@ -511,7 +512,7 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 \begin{frame}{UCを使うと、正当性証明において何が嬉しいのか？}
   \begin{itemize}
     \item \textbf{モジュール性 (Modularity). } 複雑な課題を小さなプロトコルに分解でき、各プロトコルの正当性を独立して証明できる。
-    \item \textbf{合成定理 (Composition Theorem). } プロトコル $\pi$ が理想機能 $\mathcal{F}$ をUC-realizeし、プロトコル $\rho$ が $\mathcal{F}$ を使って理想機能 $\mathcal{G}$ をUC-realizeするなら、$\pi$ で $\mathcal{F}$ を置き換えたプロトコル $\rho^{\mathcal{F} \rightarrow \pi}$ も $\mathcal{G}$ をUC-realizeする。
+    \item \textbf{合成定理 (Composition Theorem). } プロトコル $\pi$ が理想機能 $\mathcal{F}$ をUC-realizeし、プロトコル $\rho$ が $\mathcal{F}$ を使って理想機能 $\mathcal{G}$ をUC-realizeするなら、$\mathcal{F}$を$\pi$に置き換えたプロトコル $\rho^{\mathcal{F} \rightarrow \pi}$ も $\mathcal{G}$ をUC-realizeする。
   \end{itemize}
 
   \vspace{1em}

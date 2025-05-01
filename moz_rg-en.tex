@@ -359,7 +359,7 @@ Let's consider the PBFT threat model.
     \item \textbf{Adaptivity}: Adaptive - Adversaries can dynamically corrupt different replicas in each phase of the protocol
     \item \textbf{Computational Power}: Polynomially Bounded - Limited to polynomial-time computation
     \item \textbf{Visibility}: Private channels - Communication content between honest replicas is secret, and internal states are not visible to adversaries
-    \item \textbf{Mobility}: Mobile - Adversaries can dynamically corrupt different replicas in each phase of the protocol
+    \item \textbf{Mobility}: Fixed - Once corrupted, replicas remain corrupted throughout protocol execution and cannot recover
 \end{itemize}
 \end{proofblock}
 \end{frame}
@@ -396,7 +396,7 @@ For each value to be committed, COMMIT messages from at least $2f+1$ replicas ar
 \item \small Value $v$ requires COMMIT messages from at least $2f+1$ replicas in set $\mathcal{P}$
 \item \small Similarly, value $v'$ requires COMMIT messages from at least $2f+1$ replicas in set $\mathcal{Q}$
 \item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
-\item \small The intersection $\mathcal{P} \cap \mathcal{Q}$ contains at least $f+1$ replicas, and since the system has at most $f$ Byzantine replicas, at least $1$ honest replica must have sent COMMIT messages for both values $v$ and $v'$
+\item \small The intersection $\mathcal{P} \cap \mathcal{Q}$ contains at least $f+1$ replicas, and since the system has at most $f$ Byzantine replicas, \underline{at least $1$ honest replica must have sent COMMIT messages for both values $v$ and $v'$}
 \item \small However, honest replicas never send COMMIT messages for different values with the same sequence number, creating a contradiction
 \item \small Therefore, the assumption is false
 \end{itemize}
@@ -501,7 +501,8 @@ In other words, to prove that a composite protocol $\pi[\pi_1,\dots,\pi_n]$ is c
 \begin{frame}{Correctness Claims in UC}
   
   \begin{proofblock}[Definition of UC Correctness]
-   If the environment $\mathcal{Z}$ tries to find differences between interactions in the real world and the ideal world but cannot distinguish between them, then $\pi$ can be said to correctly realize the ideal functionality $\mathcal{F}$.\footnote{This is called "$\pi$ UC-realizes $\mathcal{F}$"}
+   If the environment $\mathcal{Z}$ tries to find differences between interactions in the real world and the ideal world but cannot distinguish between them, then $\pi$ can be said to correctly realize the ideal functionality $\mathcal{F}$.
+   This is called ``$\pi$ UC-realizes $\mathcal{F}$.''
 
     \medskip
     \small \textbf{Rigorous Definition. }
@@ -514,7 +515,7 @@ In other words, to prove that a composite protocol $\pi[\pi_1,\dots,\pi_n]$ is c
 \begin{frame}{Benefits of Using UC for Correctness Proofs}
   \begin{itemize}
     \item \textbf{Modularity. } Complex tasks can be decomposed into smaller protocols, and the correctness of each protocol can be proven independently.
-    \item \textbf{Composition Theorem. } If protocol $\pi$ UC-realizes ideal functionality $\mathcal{F}$ and protocol $\rho$ UC-realizes ideal functionality $\mathcal{G}$ using $\mathcal{F}$, then the protocol $\rho^{\mathcal{F} \rightarrow \pi}$ obtained by replacing $\mathcal{F}$ with $\pi$ also UC-realizes $\mathcal{G}$.
+    \item \textbf{Composition Theorem. } If protocol $\pi$ UC-realizes ideal functionality $\mathcal{F}$ and protocol $\rho$ using $\mathcal{F}$ UC-realizes ideal functionality $\mathcal{G}$, then the protocol $\rho^{\mathcal{F} \rightarrow \pi}$ obtained by replacing $\mathcal{F}$ with $\pi$ also UC-realizes $\mathcal{G}$.
   \end{itemize}
 
   \vspace{1em}
