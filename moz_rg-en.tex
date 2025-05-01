@@ -121,7 +121,7 @@ To demonstrate protocol correctness, the following aspects must be clarified:
 \begin{itemize}
     \item Which entities participate in the protocol
     \item What information exchanges occur between entities
-    \item What conditions must be satisfied for the protocol to be considered secure
+    \item What conditions must be satisfied for the protocol to be achieved the goal
     \item \textbf{What behaviors each entity might exhibit}
     \item \textbf{How to determine whether the protocol is correct\footnote{Satisfying both Safety (bad things don't happen) and Liveness (good things eventually happen) properties} given these entity behaviors}
 \end{itemize}
@@ -132,14 +132,15 @@ To demonstrate protocol correctness, the following aspects must be clarified:
 \begin{frame}{Adversaries and Threat Models}
 In protocol design, \underline{clearly defining assumptions about entity capabilities and behaviors} is crucial when considering what behaviors to allow.
 
-\begin{proofblock}[Adversary]
-An adversary refers to an attacker, typically with malicious intent, who undertakes actions against a system or protocol\\
-An adversary can control entities participating in the protocol, modifying or monitoring their operations.
+\begin{proofblock}[Adversary (Oxford Dictionary)]
+An adversary refers to an attacker, typically with malicious intent, who undertakes actions against a system or protocol
 \end{proofblock}
+
+In protocol design, an adversary can control entities participating in the protocol, modifying or monitoring their operations.
 
 \vspace{0.5em}
 \begin{proofblock}[Threat Model]
-A \textcolor{red}{threat model} formalizes assumptions about adversary capabilities and behaviors.
+A threat model formalizes assumptions about adversary capabilities and behaviors.
 \end{proofblock}
 
 \end{frame}
@@ -151,7 +152,7 @@ Adversaries control honest entities and introduce corrupted entities into the pr
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{figs/interaction-adversary.png}
+    \includegraphics[width=0.5\textwidth]{figs/interaction-adversary.pdf}
     \caption{Relationship between adversaries and entities. Adversaries can introduce corrupted entities into the protocol by intercepting messages from honest entities or directly controlling entities. (Note that entities do not become corrupted directly!)}
     \label{fig:interaction-adversary}
 \end{figure}
@@ -210,7 +211,7 @@ Adaptivity models define when and how adversaries corrupt participants:
 \begin{itemize}
     \item \textbf{Static}: Adversaries select entities to corrupt before protocol execution and cannot change their selection during execution.
     
-    \item \textbf{\textcolor{red}{Adaptive}}: Adversaries can dynamically select entities to corrupt during protocol execution.
+    \item \textbf{Adaptive}: Adversaries can dynamically select entities to corrupt during protocol execution.
 \end{itemize}
 
 \vspace{0.5em}
@@ -286,7 +287,7 @@ From the perspective of IoT, mobile devices, and long-term system operation, the
 \end{frame}
 
 \begin{frame}{Importance of Appropriate Assumptions}
-In security protocol research, \textcolor{red}{clarifying assumptions} is extremely important.
+In security protocol research, clarifying assumptions is extremely important.
 
 \vspace{0.5em}
 
@@ -299,7 +300,7 @@ In security protocol research, \textcolor{red}{clarifying assumptions} is extrem
 
 Value of explicit assumptions:
 \begin{itemize}
-    \item Enables accurate understanding of \textcolor{red}{protocol correctness}
+    \item Enables accurate understanding of \underline{protocol correctness}
     \item Allows fair comparison of different protocols using the same criteria
 \end{itemize}
 
@@ -490,7 +491,7 @@ In other words, to prove that a composite protocol $\pi[\pi_1,\dots,\pi_n]$ is c
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.65\textwidth]{figs/uc.png}
+        \includegraphics[width=0.65\textwidth]{figs/uc.pdf}
         \caption{Interaction between ideal and real worlds. In the ideal world, each dummy party $P_i$ communicates directly with the ideal functionality $\mathcal{F}$, while in the real world, entities $P_i$ executing protocol $\pi$ communicate with each other. This perspective allows $\mathcal{F}$ to be considered as a trusted ideal functionality.}
         \label{fig:uc_comparison}
     \end{figure}

@@ -121,7 +121,7 @@ A set of instructions for performing a task or solving a problem.
 \begin{itemize}
     \item どのようなエンティティがプロトコルに関与するか
     \item エンティティ間でどのような情報交換が行われるか
-    \item プロトコルはどのような条件を満たせば安全であると言えるのか
+    \item プロトコルはどのような仕様を満たせばよいのか
     \item \textbf{それぞれのエンティティがどのような振る舞いをする可能性があるか}
     \item \textbf{そのようなエンティティが存在するときに、プロコトルが正当\footnote{Safety（悪いことが起こらない）, Liveness（良いことがいつか起こる）のプロパティを共に満たすか}であるかどうかをどのように判断するか}
 \end{itemize}
@@ -132,14 +132,14 @@ A set of instructions for performing a task or solving a problem.
 \begin{frame}{敵対者と脅威モデル}
 プロトコル設計において、どのような振る舞いを許容するかを考える上では、\underline{エンティティの能力と行動に関する仮定を明確にする}ことが重要である。
 
-\begin{proofblock}[敵対者]
-An adversary refers to an attacker, typically with malicious intent, who undertakes actions against a system or protocol\\
-敵対者は、プロトコルに参加するエンティティを制御下に置き、そのエンティティの動作を変更または監視できる状態。
+\begin{proofblock}[敵対者の定義 （Oxford Dictionary）]
+An adversary refers to an attacker, typically with malicious intent, who undertakes actions against a system or protocol
 \end{proofblock}
+プロトコル設計においては、敵対者は、プロトコルに参加するエンティティを制御下に置き、そのエンティティの動作を変更または監視できる状態。
 
 \vspace{0.5em}
 \begin{proofblock}[脅威モデル]
-\textcolor{red}{脅威モデル}（threat model）とは、敵対者の能力と行動に関する仮定を形式化したモデル。
+脅威モデル（threat model）とは、敵対者の能力と行動に関する仮定を形式化したモデル。
 \end{proofblock}
 
 \end{frame}
@@ -151,7 +151,7 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.56\textwidth]{figs/interaction-adversary.png}
+    \includegraphics[width=0.56\textwidth]{figs/interaction-adversary.pdf}
     \caption{敵対者とエンティティの関係。敵対者は誠実なエンティティのメッセージを傍受したり、直接エンティティを制御したりすることで、プロトコルに腐敗したエンティティを導入することができる。\footnote{エンティティが直接、腐敗することはないことに注意！}}
     \label{fig:interaction-adversary}
 \end{figure}
@@ -210,7 +210,7 @@ An adversary refers to an attacker, typically with malicious intent, who underta
 \begin{itemize}
     \item \textbf{Static}：敵対者は腐敗させるエンティティをプロトコル実行前に選ぶ。実行中に変更できない。
     
-    \item \textbf{\textcolor{red}{Adaptive}}：敵対者はプロトコル実行中に腐敗させるエンティティを動的に選択できる。
+    \item \textbf{Adaptive}：敵対者はプロトコル実行中に腐敗させるエンティティを動的に選択できる。
 \end{itemize}
 
 \vspace{0.5em}
@@ -385,10 +385,10 @@ PBFTがセキュアであることを説明してみよう！
 \end{frame}
 
 \begin{frame}{PBFTのSafety証明}
-仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされたと仮定する。
+仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされた。
 
 \begin{lemma}
-各値がコミットされるためには、少なくとも$2f+1$個のレプリカからCOMMITメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
+各値がコミットされるためには、少なくとも$2f+1$個のレプリカから同一のCOMMITメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
 \end{lemma}
 
 \begin{itemize}
@@ -402,22 +402,6 @@ PBFTがセキュアであることを説明してみよう！
 \end{frame}
 
 
-\begin{frame}{PBFTのSafety証明}
-仮定: 二つの異なる値$v$と$v'$が同じシーケンス番号$s$でコミットされたと仮定する。
-
-\begin{lemma}
-各値がコミットされるためには、少なくとも$2f+1$個のレプリカからCOMMITメッセージが必要である。($3f+1$個のレプリカのうち、腐敗したレプリカは最大$f$個)
-\end{lemma}
-
-\begin{itemize}
-\item \small 値$v$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{P}$からのCOMMITメッセージが必要
-\item \small 同様に、値$v'$がコミットされるには少なくとも$2f+1$個のレプリカ群$\mathcal{Q}$からのCOMMITメッセージが必要
-\item \small $| \mathcal{P} \cap \mathcal{Q} | \geq 2f+1 + 2f+1 - n \geq 4f+2 - (3f+1) = f+1$
-\item \small $\mathcal{P} \cap \mathcal{Q}$の中には少なくとも$f+1$個のレプリカが存在し、システム全体で不正なレプリカは最大$f$個なので、少なくとも$1$個の誠実なレプリカが両方の値$v$と$v'$についてCOMMITメッセージを送信したことになる
-\item \small しかし、誠実なレプリカは同じシーケンス番号に対して異なる値のCOMMITメッセージを送信しないため、これは矛盾である
-\item \small したがって、仮定は誤り
-\end{itemize}
-\end{frame}
 
 \begin{frame}{複雑化したプロトコルの正当性証明}
   実運用では PBFT のようなシンプルなプロトコルは稀であり、既存のプロトコルを部品として組み合わせた複合的なプロトコルが一般的である。
@@ -504,7 +488,7 @@ UC Frameworkを使えば、複雑なプロトコルの正当性を、シンプ�
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.65\textwidth]{figs/uc.png}
+        \includegraphics[width=0.65\textwidth]{figs/uc.pdf}
         \caption{理想世界と現実世界の相互作用. 理想世界では各ダミーパーティー$P_i$は理想機能$\mathcal{F}$と直接通信するが、現実世界ではプロトコル$\pi$を実行するエンティティ$P_i$同士が通信する.このような見方をするので$\mathcal{F}$は信頼する理想機能と考えることができる。}
         \label{fig:uc_comparison}
     \end{figure}
